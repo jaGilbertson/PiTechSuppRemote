@@ -21,7 +21,7 @@ import java.util.*;
 public class RPITechSuppServer{
     private ArrayList<RPICam> onlinePis = new ArrayList<>();
     private int IDCounter = 1;
-    private int timeoutParam = 30; //timeout in seconds
+    private int timeoutParam = 1; //timeout in seconds
     WebServiceContext context; //to be used to get IP from ping requests
     
     

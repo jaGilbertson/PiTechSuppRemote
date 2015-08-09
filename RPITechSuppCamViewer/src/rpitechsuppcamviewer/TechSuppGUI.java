@@ -16,6 +16,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
      * Creates new form TechSuppGUI
      */
     DefaultListModel model = new DefaultListModel();
+    
     public TechSuppGUI() {
         initComponents();
     }
@@ -51,6 +52,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
         setTitle("Remote Support Viewer");
 
         RPIList.setModel(model);
+        RPIList.setCellRenderer(new PiListRenderer());
         jScrollPane1.setViewportView(RPIList);
 
         viewComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Online", "All Registered" }));

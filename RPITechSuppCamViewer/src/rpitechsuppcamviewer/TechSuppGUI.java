@@ -5,9 +5,7 @@
  */
 package rpitechsuppcamviewer;
 
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
+import javax.swing.*;
 /**
  *
  * @author Mecha
@@ -17,6 +15,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
     /**
      * Creates new form TechSuppGUI
      */
+    DefaultListModel model = new DefaultListModel();
     public TechSuppGUI() {
         initComponents();
     }
@@ -42,29 +41,31 @@ public class TechSuppGUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        ticketList = new javax.swing.JList();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        openCamBtn = new javax.swing.JButton();
+        copyBtn = new javax.swing.JButton();
+        listRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remote Support Viewer");
 
-        RPIList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        RPIList.setModel(model);
         jScrollPane1.setViewportView(RPIList);
 
         viewComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Online", "All Registered" }));
+        viewComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("View Mode:");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         equipList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "Model B Switcher", "HD Swivel Camera", "Mounted HD Television x2" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -90,12 +91,12 @@ public class TechSuppGUI extends javax.swing.JFrame {
             .addGap(0, 230, Short.MAX_VALUE)
         );
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        ticketList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane3.setViewportView(jList1);
+        jScrollPane3.setViewportView(ticketList);
 
         jLabel4.setText("Past Issues:");
 
@@ -137,17 +138,34 @@ public class TechSuppGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2))
-                .addContainerGap())
+                .addGap(31, 31, 31))
         );
 
-        jButton1.setText("Open Camera");
+        openCamBtn.setText("Open Camera");
+        openCamBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openCamBtnActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Copy IP Address");
+        copyBtn.setText("Copy IP Address");
+        copyBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyBtnActionPerformed(evt);
+            }
+        });
+
+        listRefresh.setText("Force Refresh");
+        listRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -162,8 +180,9 @@ public class TechSuppGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)))
+                                .addComponent(listRefresh, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(openCamBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(copyBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)))
                         .addContainerGap(36, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -182,17 +201,67 @@ public class TechSuppGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(openCamBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(copyBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(listRefresh)
+                        .addGap(13, 13, 13)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void viewComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewComboBoxActionPerformed
+        if(viewComboBox.getSelectedIndex() == 1){
+            model.clear();
+            RPITechSuppCamViewer.setListOnlineOnly(false);
+            disableConnect();
+            RPIList.repaint();
+        }
+        else{
+            model.clear();
+            RPITechSuppCamViewer.setListOnlineOnly(true);
+            RPIList.repaint();
+        }
+    }//GEN-LAST:event_viewComboBoxActionPerformed
+
+    private void listRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listRefreshActionPerformed
+        RPITechSuppCamViewer.refresh();
+    }//GEN-LAST:event_listRefreshActionPerformed
+
+    private void openCamBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openCamBtnActionPerformed
+        if(RPIList.getSelectedIndex() >= 0){
+            RPITechSuppCamViewer.openCam(RPIList.getSelectedIndex());
+        }
+    }//GEN-LAST:event_openCamBtnActionPerformed
+
+    private void copyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyBtnActionPerformed
+        if(RPIList.getSelectedIndex() >= 0){
+            RPITechSuppCamViewer.copyIP(RPIList.getSelectedIndex());
+        }
+    }//GEN-LAST:event_copyBtnActionPerformed
+
+    public void updatePiList(String[] listString){
+        //update the RPIList with an updated list
+        model.clear();
+        for (String listString1 : listString) {
+            model.addElement(listString1);
+        }
+        RPIList.repaint();
+    }
+    
+    public void disableConnect(){
+        openCamBtn.setEnabled(false);
+        copyBtn.setEnabled(false);
+    }
+    
+    public void enableConnect(){
+        openCamBtn.setEnabled(true);
+        copyBtn.setEnabled(true);
+    }
     /**
      * @param args the command line arguments
      */
@@ -223,7 +292,6 @@ public class TechSuppGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-
                 new TechSuppGUI().setVisible(true);
             }
         });
@@ -231,20 +299,21 @@ public class TechSuppGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList RPIList;
+    private javax.swing.JButton copyBtn;
     private javax.swing.JList equipList;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton listRefresh;
     private javax.swing.JLabel locationLbl;
+    private javax.swing.JButton openCamBtn;
+    private javax.swing.JList ticketList;
     private javax.swing.JComboBox viewComboBox;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package RPITechServer;
+package rpitechsuppcamviewer;
 
 /**
  *
@@ -57,7 +57,7 @@ public class RPICam {
             String[] components = constructString.split("%");
             ID = Integer.parseInt(components[0]);
             location = components[1];
-            IPAddress = "";
+            IPAddress = "Offline";
         }
     }
     

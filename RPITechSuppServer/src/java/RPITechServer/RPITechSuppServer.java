@@ -7,16 +7,22 @@ package RPITechServer;
 
 import javax.jws.WebService;
 import javax.jws.WebMethod;
+import javax.xml.ws.*;
+import javax.xml.ws.handler.*;
+import javax.servlet.http.*;
 import java.util.*;
 /**
  *
  * @author Jamie Gilbertson
  */
+
+
 @WebService
 public class RPITechSuppServer{
-    private ArrayList<RPICam> onlinePis;
+    private ArrayList<RPICam> onlinePis = new ArrayList<>();
     private int IDCounter = 1;
     private int timeoutParam = 30; //timeout in seconds
+    WebServiceContext context; //to be used to get IP from ping requests
     
     
     @WebMethod
@@ -47,17 +53,24 @@ public class RPITechSuppServer{
         //TODO
         //RPIs call this method to ping to say they are online. They should do this as often as the timeout parameter. RPIs are incapable of pinging if they aren't registered.
         boolean pingSet = false;
+        //retreive IP address from message context
+        MessageContext pingContext = context.getMessageContext();
+        HttpServletRequest pingRequest = (HttpServletRequest)pingContext.get(MessageContext.SERVLET_REQUEST);
         //iterate through pis already online and update the most recent ping if match is found
         for(int i = 0; i < onlinePis.size(); i++){
             if(onlinePis.get(i).getID() == ID){
+                
+                //set the online information for the remote Pi
                 onlinePis.get(i).setLastPing(new Date());
+                onlinePis.get(i).setIPAddress(pingRequest.getRemoteAddr());
                 pingSet = true;
                 break;
             }
         }
         //if match was not found, grab pi from database and add it to onlinePis list with a new ping time
+        //it should be impossible for a pi to ping the server if it has not registered
         if(!pingSet){
-            onlinePis.add(new RPICam(DBManager.getPi(ID), timeoutParam, new Date())); 
+            onlinePis.add(new RPICam(DBManager.getPi(ID), timeoutParam, new Date(), pingRequest.getRemoteAddr())); 
         }
     }
     
@@ -90,4 +103,6 @@ public class RPITechSuppServer{
         //"" will be returned if there are no online RPIs, this should be validated client-side
         return tempString;
     }
+    
+    
 }

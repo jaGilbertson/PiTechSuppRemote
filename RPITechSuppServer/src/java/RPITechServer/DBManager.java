@@ -148,12 +148,12 @@ public class DBManager {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             connection = DriverManager.getConnection(DBURL, username, password);
-            sqlStmt = connection.createStatement();
+            sqlStmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             String sql = "SELECT 1 FROM REGISTEREDPIS WHERE ID='" + ID + "'";
             ResultSet dbResult = sqlStmt.executeQuery(sql);
             //check if the ResultSet has any rows and create return string if it does
             if(dbResult.isBeforeFirst()){
-                returnString = dbResult.getString(1) + ":" + dbResult.getString(2);
+                returnString = dbResult.getString(1) + "%" + dbResult.getString(2);
             }
             dbResult.close();
         } 
@@ -183,16 +183,17 @@ public class DBManager {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             connection = DriverManager.getConnection(DBURL, username, password);
-            sqlStmt = connection.createStatement();
+            sqlStmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             String sql = "SELECT * FROM REGISTEREDPIS";
             ResultSet dbResult = sqlStmt.executeQuery(sql);
             //check if the ResultSet has any rows and create return string if it does
             if(dbResult.isBeforeFirst()){
-                returnString = dbResult.getString(1) + ":" + dbResult.getString(2);
+                while(dbResult.next() != false){
+                    returnString = returnString + dbResult.getString(1) + "%" + dbResult.getString(2) + ";";
+                }
+                //returnString = dbResult.getString(1) + "'" + dbResult.getString(2);
             }
-            while(dbResult.next() != false){
-                returnString = returnString + ";" + dbResult.getString(1) + ":" + dbResult.getString(2);
-            }
+            
             dbResult.close();
         } 
         catch (SQLException se) {

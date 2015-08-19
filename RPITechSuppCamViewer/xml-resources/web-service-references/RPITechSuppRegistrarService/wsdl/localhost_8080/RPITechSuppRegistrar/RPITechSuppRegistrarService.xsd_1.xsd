@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://RPITechRegistrar/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://RPITechRegistrar/">
+
+<xs:element name="getOnlineList" type="tns:getOnlineList"/>
+
+<xs:element name="getOnlineListResponse" type="tns:getOnlineListResponse"/>
+
+<xs:element name="getRegisteredPiList" type="tns:getRegisteredPiList"/>
+
+<xs:element name="getRegisteredPiListResponse" type="tns:getRegisteredPiListResponse"/>
+
+<xs:element name="pingAlive" type="tns:pingAlive"/>
+
+<xs:element name="pingAliveResponse" type="tns:pingAliveResponse"/>
+
+<xs:element name="register" type="tns:register"/>
+
+<xs:element name="registerResponse" type="tns:registerResponse"/>
+
+<xs:element name="retire" type="tns:retire"/>
+
+<xs:element name="retireResponse" type="tns:retireResponse"/>
+
+<xs:complexType name="register">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="registerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="pingAlive">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="pingAliveResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="retire">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retireResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getOnlineList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getOnlineListResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getRegisteredPiList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getRegisteredPiListResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

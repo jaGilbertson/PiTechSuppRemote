@@ -5,8 +5,8 @@
  */
 package rpitechsuppcamviewer;
 
-import RPITechSuppCamServer.RPITechSuppServerService;
-import RPITechSuppCamServer.RPITechSuppServer;
+import CamRegistrar.RPITechSuppRegistrarService;
+import CamRegistrar.RPITechSuppRegistrar;
 
 import java.util.*;
 import java.awt.Desktop;
@@ -25,21 +25,24 @@ public class RPITechSuppCamViewer {
     /**
      * @param args the command line arguments
      */
-    private static RPITechSuppServerService service;
-    private static RPITechSuppServer port;
+    private static RPITechSuppRegistrarService service;
+    private static RPITechSuppRegistrar port;
     private static TechSuppGUI GUI;
     private static ArrayList<RPICam> camList  = new ArrayList<>();
     private static boolean listOnlineOnly = true;
     
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        service = new RPITechSuppCamServer.RPITechSuppServerService();
-        port = service.getRPITechSuppServerPort();
+        try{
+        service = new CamRegistrar.RPITechSuppRegistrarService();
+        port = service.getRPITechSuppRegistrarPort();
         GUI = new TechSuppGUI();
         GUI.setVisible(true);
         refresh();
-        
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error connecting to server: " + e, "Registrar Offline", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
     public static void refresh(){

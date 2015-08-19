@@ -16,22 +16,22 @@
             <classpath path="${libs.jaxws21.classpath}"/>
         </taskdef>
     </target>
-    <target name="wsimport-client-RPITechSuppServerService" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/RPITechSuppServerService"/>
-        <property name="wsdl-RPITechSuppServerService" location="xml-resources/web-service-references/RPITechSuppServerService/wsdl/localhost_8080/RPITechSuppServer/RPITechSuppServerService.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/RPITechSuppServerService" destdir="${build.generated.dir}/jax-wsCache/RPITechSuppServerService" wsdl="${wsdl-RPITechSuppServerService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/RPITechSuppServer/RPITechSuppServerService?wsdl" xnocompile="true" xendorsed="true" package="RPITechSuppCamServer">
-            <depends file="${wsdl-RPITechSuppServerService}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/RPITechSuppServerService"/>
+    <target name="wsimport-client-RPITechSuppRegistrarService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService"/>
+        <property name="wsdl-RPITechSuppRegistrarService" location="xml-resources/web-service-references/RPITechSuppRegistrarService/wsdl/localhost_8080/RPITechSuppRegistrar/RPITechSuppRegistrarService.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService" destdir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService" wsdl="${wsdl-RPITechSuppRegistrarService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService?wsdl" xnocompile="true" xendorsed="true" package="CamRegistrar">
+            <depends file="${wsdl-RPITechSuppRegistrarService}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/RPITechSuppServerService">
+            <fileset dir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
     </target>
-    <target name="wsimport-client-clean-RPITechSuppServerService" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/RPITechSuppServerService"/>
-        <delete dir="${build.generated.sources.dir}/jax-ws/RPITechSuppCamServer"/>
+    <target name="wsimport-client-clean-RPITechSuppRegistrarService" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/CamRegistrar"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-RPITechSuppServerService"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-RPITechSuppRegistrarService"/>
 </project>

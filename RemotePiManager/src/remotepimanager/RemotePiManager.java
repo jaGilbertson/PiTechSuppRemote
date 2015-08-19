@@ -5,36 +5,55 @@
  */
 package remotepimanager;
 
-import RPITechSuppCamServer.RPITechSuppServerService;
-import RPITechSuppCamServer.RPITechSuppServer;
+import CamRegistrar.RPITechSuppRegistrarService;
+import CamRegistrar.RPITechSuppRegistrar;
 /**
  *
  * @author Jamie Gilbertson
  */
 public class RemotePiManager {
-    private static RPITechSuppServerService service;
-    private static RPITechSuppServer port;
+    private static RPITechSuppRegistrarService service;
+    private static RPITechSuppRegistrar port;
     private static int ID = 2;
     private static String location = "Cardiff";
+    private static Thread pinger;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        service = new RPITechSuppCamServer.RPITechSuppServerService();
-        port = service.getRPITechSuppServerPort();
+        try{
+        service = new CamRegistrar.RPITechSuppRegistrarService();
+        port = service.getRPITechSuppRegistrarPort();
         port.register(location);
-        while(true){
-            try{
-            pingServer();
-            Thread.sleep(20*1000);
-            System.out.println("Pinging server");
-            }
-            catch(Exception e){}
         }
+        catch(Exception e){
+            System.out.println("Error connecting to server");
+            System.exit(0);
+        }
+        
+        pinger = new Thread(new pingThread());
+        pinger.start();
     }
     
     public static void pingServer(){
         port.pingAlive(ID);
     }
+    
+    public static class pingThread implements Runnable{
+        public void run(){
+            while(true){
+                System.out.println("Pinging server");
+                pingServer();
+                try{
+                    Thread.sleep(10000);
+                }
+                catch(Exception e){
+                System.out.println(e);}
+            }
+        }
+        
+    }
+    
 }
+

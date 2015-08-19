@@ -28,10 +28,9 @@ public class RemotePiManager {
         port.register(location);
         }
         catch(Exception e){
-            System.out.println("Error connecting to server");
+            System.out.println("Error connecting to server: " + e);
             System.exit(0);
         }
-        
         pinger = new Thread(new pingThread());
         pinger.start();
     }
@@ -46,14 +45,12 @@ public class RemotePiManager {
                 System.out.println("Pinging server");
                 pingServer();
                 try{
-                    Thread.sleep(10000);
+                    Thread.sleep(1000);
                 }
                 catch(Exception e){
-                System.out.println(e);}
+                    System.out.println(e);
+                }
             }
         }
-        
     }
-    
 }
-

@@ -27,15 +27,15 @@ public class DBManager {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             connection = DriverManager.getConnection(DBURL, username, password);
             sqlStmt = connection.createStatement();
-            String sql = "INSERT INTO REGISTEREDPIS (ID, LOCATION) " + " VALUES ( '" + ID + "', '" + location + "')";
+            String sql = "INSERT INTO REGISTEREDPIS (ID, LOCATION) " + " VALUES ( " + ID + ", '" + location + "')";
             sqlStmt.executeUpdate(sql);
-        } 
+        }
         catch (SQLException se) {
             se.printStackTrace();
-        } 
+        }
         catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         finally {
             try{
                 if(connection != null) {
@@ -58,13 +58,13 @@ public class DBManager {
             sqlStmt = connection.createStatement();
             String sql = "DELETE FROM REGISTEREDPIS WHERE ID=" + ID;
             sqlStmt.executeUpdate(sql);
-        } 
+        }
         catch (SQLException se) {
             se.printStackTrace();
-        } 
+        }
         catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         finally {
             try{
                 if(connection != null) {
@@ -87,13 +87,13 @@ public class DBManager {
             sqlStmt = connection.createStatement();
             String sql = "DELETE FROM REGISTEREDPIS WHERE LOCATION=" + location;
             sqlStmt.executeUpdate(sql);
-        } 
+        }
         catch (SQLException se) {
             se.printStackTrace();
-        } 
+        }
         catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         finally {
             try{
                 if(connection != null) {
@@ -118,16 +118,16 @@ public class DBManager {
             ResultSet dbResult = sqlStmt.executeQuery(sql);
             //check if the ResultSet has any rows and create return string if it does
             if(dbResult.isBeforeFirst()){
-                returnString = dbResult.getString(1) + ":" + dbResult.getString(2);
+                returnString = dbResult.getString(1) + "%" + dbResult.getString(2);
             }
             dbResult.close();
-        } 
+        }
         catch (SQLException se) {
             se.printStackTrace();
-        } 
+        }
         catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         finally {
             try{
                 if(connection != null) {
@@ -149,20 +149,21 @@ public class DBManager {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             connection = DriverManager.getConnection(DBURL, username, password);
             sqlStmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-            String sql = "SELECT 1 FROM REGISTEREDPIS WHERE ID='" + ID + "'";
+            String sql = "SELECT ID,LOCATION FROM REGISTEREDPIS WHERE ID=" + ID + "";
             ResultSet dbResult = sqlStmt.executeQuery(sql);
             //check if the ResultSet has any rows and create return string if it does
             if(dbResult.isBeforeFirst()){
+                dbResult.next();
                 returnString = dbResult.getString(1) + "%" + dbResult.getString(2);
             }
             dbResult.close();
-        } 
+        }
         catch (SQLException se) {
             se.printStackTrace();
-        } 
+        }
         catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         finally {
             try{
                 if(connection != null) {
@@ -195,13 +196,13 @@ public class DBManager {
             }
             
             dbResult.close();
-        } 
+        }
         catch (SQLException se) {
             se.printStackTrace();
-        } 
+        }
         catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         finally {
             try{
                 if(connection != null) {

@@ -50,9 +50,13 @@ public class TechSuppGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remote Support Viewer");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         RPIList.setModel(model);
-        RPIList.setCellRenderer(new PiListRenderer());
         jScrollPane1.setViewportView(RPIList);
 
         viewComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Online", "All Registered" }));
@@ -162,7 +166,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
             }
         });
 
-        listRefresh.setText("Force Refresh");
+        listRefresh.setText("Refresh");
         listRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 listRefreshActionPerformed(evt);
@@ -226,7 +230,6 @@ public class TechSuppGUI extends javax.swing.JFrame {
         else{
             model.clear();
             RPITechSuppCamViewer.setListOnlineOnly(true);
-            RPIList.repaint();
         }
     }//GEN-LAST:event_viewComboBoxActionPerformed
 
@@ -245,6 +248,10 @@ public class TechSuppGUI extends javax.swing.JFrame {
             RPITechSuppCamViewer.copyIP(RPIList.getSelectedIndex());
         }
     }//GEN-LAST:event_copyBtnActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
 
     public void updatePiList(String[] listString){
         //update the RPIList with an updated list

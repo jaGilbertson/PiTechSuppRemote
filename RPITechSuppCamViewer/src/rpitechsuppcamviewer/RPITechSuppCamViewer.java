@@ -30,19 +30,22 @@ public class RPITechSuppCamViewer {
     private static TechSuppGUI GUI;
     private static ArrayList<RPICam> camList  = new ArrayList<>();
     private static boolean listOnlineOnly = true;
+    private static Thread refreshThread;
     
     public static void main(String[] args) {
         // TODO code application logic here
         try{
         service = new CamRegistrar.RPITechSuppRegistrarService();
         port = service.getRPITechSuppRegistrarPort();
-        GUI = new TechSuppGUI();
-        GUI.setVisible(true);
-        refresh();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error connecting to server: " + e, "Registrar Offline", JOptionPane.INFORMATION_MESSAGE);
         }
+        GUI = new TechSuppGUI();
+        GUI.setVisible(true);
+        refresh();
+        /*refreshThread = new Thread(new Refresher());
+        refreshThread.start();*/
     }
     
     public static void refresh(){
@@ -58,7 +61,9 @@ public class RPITechSuppCamViewer {
                 camList.clear();
                 //populate local list
                 for(int i = 0; i < tempArr.length; i++){
-                    camList.add(new RPICam(tempArr[i], 1));
+                    if(!tempArr[i].equals("")){
+                        camList.add(new RPICam(tempArr[i], 1));
+                    }
                 }
                 //update GUI pi list
                 tempArr1 = new String[camList.size()];
@@ -110,7 +115,9 @@ public class RPITechSuppCamViewer {
                 try{
                     Desktop.getDesktop().browse(new URI(camList.get(index).getIPAddress()));
                 }
-                catch(URISyntaxException | IOException e){}
+                catch(URISyntaxException | IOException e){
+                    System.out.println(e);
+                }
             }
         }
         else{
@@ -130,4 +137,21 @@ public class RPITechSuppCamViewer {
         listOnlineOnly = set;
         refresh();
     }
+    /*
+    public static class Refresher implements Runnable{
+        
+        public void run(){
+            while(true){
+                refresh();
+                try{
+                    Thread.sleep(1000);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+            }
+        }
+
+    }
+    */
 }

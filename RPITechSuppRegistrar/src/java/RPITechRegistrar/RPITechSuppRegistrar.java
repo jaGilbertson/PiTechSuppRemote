@@ -11,6 +11,7 @@ import javax.xml.ws.*;
 import javax.xml.ws.handler.*;
 import javax.servlet.http.*;
 import java.util.*;
+import javax.annotation.Resource;
 /**
  *
  * @author Jamie Gilbertson
@@ -19,10 +20,12 @@ import java.util.*;
 
 @WebService
 public class RPITechSuppRegistrar{
-    private ArrayList<RPICam> onlinePis = new ArrayList<>(); //stores all online devices
-    private HashMap<Integer, String> callSwitcher = new HashMap<>(); //stores IP adresses of clients initiating voice calls against ID of device to be called
+    private final ArrayList<RPICam> onlinePis = new ArrayList<>(); //stores all online devices
+    private final HashMap<Integer, String> callSwitcher = new HashMap<>(); //stores IP adresses of clients initiating voice calls against ID of device to be called
     private int IDCounter = 1;
-    private int timeoutParam = 1; //timeout in seconds
+    private final int timeoutParam = 1; //timeout in seconds
+    
+    @Resource
     private WebServiceContext context; //to be used to get IP from ping requests
     
     
@@ -50,13 +53,18 @@ public class RPITechSuppRegistrar{
     }
     
     @WebMethod
-    public void pingAlive(int ID, String IP){
+    public void pingAlive(int ID){
         //TODO
         //RPIs call this method to ping to say they are online. They should do this as often as the timeout parameter. RPIs are incapable of pinging if they aren't registered.
         boolean pingSet = false;
         //retreive IP address from message context
         MessageContext pingContext = context.getMessageContext();
         HttpServletRequest pingRequest = (HttpServletRequest)pingContext.get(MessageContext.SERVLET_REQUEST);
+        
+        /*HttpExchange exchange = (HttpExchange)msgx.get("com.sun.xml.ws.http.exchange");
+        InetSocketAddress remoteAddress = exchange.getRemoteAddress();
+        String remoteHost = remoteAddress.getHostName();*/
+
         //iterate through pis already online and update the most recent ping if match is found
         for(int i = 0; i < onlinePis.size(); i++){
             if(onlinePis.get(i).getID() == ID){
@@ -87,7 +95,7 @@ public class RPITechSuppRegistrar{
     }
     
     @WebMethod
-    private void intitiateCall(String camString, String IP){
+    private void intitiateCall(String camString){
         //to be called by a client wishing to start a voice chat with a device
         RPICam temp = new RPICam(camString, 1);
         MessageContext pingContext = context.getMessageContext();
@@ -100,7 +108,7 @@ public class RPITechSuppRegistrar{
     private String getCalls(int ID){
         //to be called by devices during their ping loop to check if there are any calls being made to them
         if(callSwitcher.get(ID) != null){
-         return callSwitcher.get(ID);   
+         return callSwitcher.get(ID);
         }
         return "";
     }
@@ -109,12 +117,17 @@ public class RPITechSuppRegistrar{
         String tempString = "";
         //check if there are any online RPIs in the list
         if(onlinePis.size() > 0){
-            //loop through the list of online pis and add each entry to a string to be returned
+            //loop through the list of online pis and prune pis that are offline
             for(int i =0; i < onlinePis.size(); i++){
                 //prune any pis that are outside the timeout parameter
                 if(!onlinePis.get(i).isPingWithinParam()){
                     onlinePis.remove(i);
                 }
+            }
+        }
+        if(onlinePis.size() > 0){
+            //loop through the list of online pis and add each entry to a string to be returned
+            for(int i =0; i < onlinePis.size(); i++){
                 //list is returned as a string with entries separated by ;
                 tempString = tempString + ";" + onlinePis.get(i).toString();
             }

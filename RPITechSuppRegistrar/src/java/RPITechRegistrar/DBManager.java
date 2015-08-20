@@ -118,6 +118,7 @@ public class DBManager {
             ResultSet dbResult = sqlStmt.executeQuery(sql);
             //check if the ResultSet has any rows and create return string if it does
             if(dbResult.isBeforeFirst()){
+                dbResult.next();
                 returnString = dbResult.getString(1) + "%" + dbResult.getString(2);
             }
             dbResult.close();

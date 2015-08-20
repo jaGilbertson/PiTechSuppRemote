@@ -6,4 +6,6 @@
     <system systemId="http://localhost:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService?xsd=1" uri="wsdl/localhost_8080/RPITechSuppRegistrar/RPITechSuppRegistrarService.xsd_1.xsd"/>
     <system systemId="http://137.44.117.249:44115/RPITechSuppRegistrar/RPITechSuppRegistrarService?wsdl" uri="wsdl/137.44.117.249_44115/RPITechSuppRegistrar/RPITechSuppRegistrarService.wsdl"/>
     <system systemId="http://137.44.117.249:44115/RPITechSuppRegistrar/RPITechSuppRegistrarService?xsd=1" uri="wsdl/137.44.117.249_44115/RPITechSuppRegistrar/RPITechSuppRegistrarService.xsd_1.xsd"/>
+    <system systemId="http://192.168.1.100:44115/RPITechSuppRegistrar/RPITechSuppRegistrarService?wsdl" uri="wsdl/192.168.1.100_44115/RPITechSuppRegistrar/RPITechSuppRegistrarService.wsdl"/>
+    <system systemId="http://192.168.1.100:44115/RPITechSuppRegistrar/RPITechSuppRegistrarService?xsd=1" uri="wsdl/192.168.1.100_44115/RPITechSuppRegistrar/RPITechSuppRegistrarService.xsd_1.xsd"/>
 </catalog>

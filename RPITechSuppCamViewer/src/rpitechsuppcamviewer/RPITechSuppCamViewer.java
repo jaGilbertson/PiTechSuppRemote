@@ -113,7 +113,7 @@ public class RPITechSuppCamViewer {
             if(Desktop.isDesktopSupported())
             {
                 try{
-                    Desktop.getDesktop().browse(new URI(camList.get(index).getIPAddress()));
+                    Desktop.getDesktop().browse(new URI("http://" + camList.get(index).getIPAddress()));
                 }
                 catch(URISyntaxException | IOException e){
                     System.out.println(e);

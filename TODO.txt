@@ -7,4 +7,5 @@ Text file to read RPI details for RPI               DONE
 RMS Database integration
 Registrar server deployment
 Run RemotePiManager on startup			    DONE (add run program command to local)
-Manual deregister for client
+Manual deregister for client                        
+Add button to turn on RPI

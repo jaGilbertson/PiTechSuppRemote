@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package rpitechsuppcamviewer;
+package remotepimanager;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -180,7 +180,7 @@ public class TechCall{
                 }
                 catch(SocketTimeoutException e){
                     stopCall(); //call has timed out, so end all threads
-                    RPITechSuppCamViewer.informCallTimedOut(); //call has timed out, so inform controller
+                    startCall(); //restart process to wait for new calls
                     break;
                 }
                 catch(IOException e){

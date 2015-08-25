@@ -153,6 +153,10 @@ public class RPITechSuppCamViewer {
         call.stopCall();        
     }
     
+    public static void informCallTimedOut(){
+        GUI.disableCallInterface();
+    }
+    
     public static void copyIP(int index){
         //copy ip address of pi to clipboard, usually for SSH
         StringSelection stringSelection = new StringSelection (camList.get(index).getIPAddress());

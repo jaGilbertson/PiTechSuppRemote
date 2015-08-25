@@ -332,6 +332,13 @@ public class TechSuppGUI extends javax.swing.JFrame {
         addLbl.setText(address);
     }
     
+    public void disableCallInterface(){
+        endCallBtn.setEnabled(false);
+        locLbl.setText("");
+        addLbl.setText("");
+        callBtn.setEnabled(true);
+    }
+    
     public void updatePiList(String[] listString){
         //update the RPIList with an updated list
         model.clear();

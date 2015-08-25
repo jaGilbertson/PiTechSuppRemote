@@ -10,7 +10,6 @@ import CamRegistrar.RPITechSuppRegistrar;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.File;
 /**
@@ -26,7 +25,8 @@ public class RemotePiManager {
     private static FileReader reader;
     private static BufferedReader lineReader;
     private static String confPath = "details.conf";
-
+    private static TechCall callHandler;
+    
     /**
      * @param args the command line arguments
      */
@@ -105,6 +105,15 @@ public class RemotePiManager {
 
         pinger = new Thread(new pingThread());
         pinger.start();
+        try{
+            callHandler = new TechCall();
+        }
+        catch(Exception e){
+            System.out.println("Error establishing call support" + e);
+            System.exit(0);
+        }
+        callHandler.startCall();
+        
     }
     
     public static void pingServer(){

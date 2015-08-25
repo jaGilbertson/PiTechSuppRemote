@@ -16,6 +16,8 @@ import java.net.URISyntaxException;
 import javax.swing.JOptionPane;
 import java.awt.datatransfer.*;
 import java.awt.Toolkit;
+import javax.sound.sampled.LineUnavailableException;
+import java.net.SocketException;
 /**
  *
  * @author Jamie Gilbertson
@@ -31,6 +33,7 @@ public class RPITechSuppCamViewer {
     private static ArrayList<RPICam> camList  = new ArrayList<>();
     private static boolean listOnlineOnly = true;
     private static Thread refreshThread;
+    private static TechCall call;
     
     public static void main(String[] args) {
         // TODO code application logic here
@@ -123,6 +126,31 @@ public class RPITechSuppCamViewer {
         else{
             JOptionPane.showMessageDialog(null,"Camera Offline","Alert",JOptionPane.WARNING_MESSAGE);
         }
+    }
+    
+    public static void callDevice(int index){
+        if(listOnlineOnly){
+            try{
+            //start new call
+            call = new TechCall(camList.get(index).getIPAddress());
+            }
+            catch(LineUnavailableException e){
+                JOptionPane.showMessageDialog(null,"Error with Audio: " + e,"Alert",JOptionPane.WARNING_MESSAGE);
+            }
+            catch(SocketException e){
+                JOptionPane.showMessageDialog(null,"Error establishing connection: " + e,"Alert",JOptionPane.WARNING_MESSAGE);
+            }
+            call.startCall();
+            GUI.setCaller(camList.get(index).getLocation(), camList.get(index).getIPAddress());
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Camera Offline","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    public static void endCall(){
+        //Validate in GUI to ensure this cannot be called without a preceding call to callDevice()
+        call.stopCall();        
     }
     
     public static void copyIP(int index){

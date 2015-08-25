@@ -1,11 +1,12 @@
 TODO
-Voice Comms
+Voice Comms					    CLASS WRITTEN, INTEGRATED INTO CLIENT AND GUI
 Password access to server
+Manual deregister for client
+RMS Database integration			    TOO LATE (create generic database with tools to add files inc. gallery file system)
 Daemon for RPI					    DONE (add & to the end of the run program command)
 Registration process for RPI                        DONE
 Text file to read RPI details for RPI               DONE
-RMS Database integration
-Registrar server deployment
+Registrar server deployment			    TOO LATE (host locally on glassfish for demo)
 Run RemotePiManager on startup			    DONE (add run program command to local)
-Manual deregister for client                        
-Add button to turn on RPI
+Add button to turn on RPI			    DEPRECATED (in favour of pulling/placing power cable)
+

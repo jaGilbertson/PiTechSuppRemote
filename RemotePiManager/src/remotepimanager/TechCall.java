@@ -22,6 +22,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.net.SocketException;
+import java.util.Vector;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -29,6 +30,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.Mixer;
 
     
 /**
@@ -54,7 +56,7 @@ public class TechCall{
     
     private TargetDataLine targetLine;
     private SourceDataLine sourceLine;
-    private AudioFormat format = new AudioFormat(8000, 16, 1, true, true); //sample rate 8kHz, sample size 16 bits, 1 channel, signed true, big Endian true
+    private AudioFormat format = new AudioFormat(8000, 16, 1, true, false); //sample rate 8kHz, sample size 16 bits, 1 channel, signed true, big Endian false
     
     public TechCall() throws SocketException, LineUnavailableException {
         //to be used by remote device to create new instance of TechCall that will wait to receive a packet before returning a call
@@ -84,12 +86,61 @@ public class TechCall{
     
     private void setupAudio() throws LineUnavailableException{
         //sets up the targetLine to use for capturing audio
-        DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-        targetLine = (TargetDataLine) AudioSystem.getLine(info);
-        targetLine.open(format);        
+        System.out.println(getSupportedFormats(TargetDataLine.class));
+        
+        
+        DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
+        System.out.println(AudioSystem.isLineSupported(targetInfo));
+        System.out.println(targetInfo.toString());
+        targetLine = (TargetDataLine) AudioSystem.getLine(targetInfo); //throws error
+        targetLine.open(format);
+        
+        System.out.println(getSupportedFormats(TargetDataLine.class));
+        
+        DataLine.Info sourceInfo = new DataLine.Info(SourceDataLine.class, format);
+        System.out.println(AudioSystem.isLineSupported(sourceInfo));
+        sourceLine = (SourceDataLine) AudioSystem.getLine(sourceInfo);
         sourceLine.open(format);
     }
-    
+    public Vector<AudioFormat> getSupportedFormats(Class<?> dataLineClass) {
+    /*
+     * These define our criteria when searching for formats supported
+     * by Mixers on the system.
+     */
+    float sampleRates[] = { (float) 8000.0, (float) 16000.0, (float) 44100.0 };
+    int channels[] = { 1, 2 };
+    int bytesPerSample[] = { 2 };
+
+    AudioFormat format;
+    DataLine.Info lineInfo;
+
+    Vector<AudioFormat> formats = new Vector<AudioFormat>();
+
+    for (Mixer.Info mixerInfo : AudioSystem.getMixerInfo()) {
+        for (int a = 0; a < sampleRates.length; a++) {
+            for (int b = 0; b < channels.length; b++) {
+                for (int c = 0; c < bytesPerSample.length; c++) {
+                    format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
+                            sampleRates[a], 8 * bytesPerSample[c], channels[b], bytesPerSample[c],
+                            sampleRates[a], false);
+                    lineInfo = new DataLine.Info(dataLineClass, format);
+                    if (AudioSystem.isLineSupported(lineInfo)) {
+                        /*
+                         * TODO: To perform an exhaustive search on supported lines, we should open
+                         * TODO: each Mixer and get the supported lines. Do this if this approach
+                         * TODO: doesn't give decent results. For the moment, we just work with whatever
+                         * TODO: the unopened mixers tell us.
+                         */
+                        if (AudioSystem.getMixer(mixerInfo).isLineSupported(lineInfo)) {
+                            formats.add(format);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return formats;
+}
     public void startCall(){
         if(IPAddress.equals("")){
             //if instance has been created without an address, the thread will wait until it receives a packet to initiate the call
@@ -99,6 +150,7 @@ public class TechCall{
             boolean received = false;
             while(!received){
                 try{
+                    System.out.println("waiting for call");
                     socket.receive(recPack); //thread will wait here until a packet is received
                     received = true;
                 }

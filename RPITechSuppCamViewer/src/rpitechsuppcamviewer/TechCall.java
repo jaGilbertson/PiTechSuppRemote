@@ -54,7 +54,7 @@ public class TechCall{
     
     private TargetDataLine targetLine;
     private SourceDataLine sourceLine;
-    private AudioFormat format = new AudioFormat(8000, 16, 1, true, true); //sample rate 8kHz, sample size 16 bits, 1 channel, signed true, big Endian true
+    private AudioFormat format = new AudioFormat(8000, 16, 1, true, false); //sample rate 8kHz, sample size 16 bits, 1 channel, signed true, big Endian true
     
     public TechCall() throws SocketException, LineUnavailableException {
         //to be used by remote device to create new instance of TechCall that will wait to receive a packet before returning a call
@@ -83,10 +83,15 @@ public class TechCall{
     }
     
     private void setupAudio() throws LineUnavailableException{
-        //sets up the targetLine to use for capturing audio
-        DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-        targetLine = (TargetDataLine) AudioSystem.getLine(info);
-        targetLine.open(format);        
+        //sets up the targetLine to use for capturing audio    
+        DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
+        System.out.println(AudioSystem.isLineSupported(targetInfo));
+        targetLine = (TargetDataLine) AudioSystem.getLine(targetInfo);
+        targetLine.open(format);
+        
+        DataLine.Info sourceInfo = new DataLine.Info(SourceDataLine.class, format);
+        System.out.println(AudioSystem.isLineSupported(sourceInfo));
+        sourceLine = (SourceDataLine) AudioSystem.getLine(sourceInfo);
         sourceLine.open(format);
     }
     

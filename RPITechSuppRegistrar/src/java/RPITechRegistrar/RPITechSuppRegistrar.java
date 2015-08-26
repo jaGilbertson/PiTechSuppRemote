@@ -96,6 +96,7 @@ public class RPITechSuppRegistrar{
     
     @WebMethod
     private void intitiateCall(String camString){
+        //method not used in project, but left in for future expandability
         //to be called by a client wishing to start a voice chat with a device
         RPICam temp = new RPICam(camString, 1);
         MessageContext pingContext = context.getMessageContext();
@@ -106,6 +107,7 @@ public class RPITechSuppRegistrar{
     
     @WebMethod
     private String getCalls(int ID){
+        //method not used in project, but left in for future expandability
         //to be called by devices during their ping loop to check if there are any calls being made to them
         if(callSwitcher.get(ID) != null){
          return callSwitcher.get(ID);

@@ -56,6 +56,7 @@ public class RemotePiManager {
             }
             catch(IOException io){
                 //if file creation fails, simply exit program
+                System.out.println("Failed to create details.conf");
                 System.exit(0);
             }
             System.exit(0);
@@ -64,10 +65,12 @@ public class RemotePiManager {
             //try to read the location entered by user, if none has been entered, simply exit program
             location = lineReader.readLine();
             if(location.equals("")){
+                System.out.println("No location entered into details.conf");
                 System.exit(0);
             }
         }
         catch(Exception e){
+            System.out.println("error reading details.conf");
             System.exit(0);
         }
         try{
@@ -86,6 +89,7 @@ public class RemotePiManager {
                     writer.close();
                 }
                 catch(IOException io){
+                    System.out.println("error overwriting details.conf");
                     System.exit(0);
                 }
             }
@@ -98,6 +102,7 @@ public class RemotePiManager {
                     writer.close();
                 }
                 catch(IOException io){
+                    System.out.println("error writing to details.conf");
                     System.exit(0);
                 }
             }
@@ -109,9 +114,11 @@ public class RemotePiManager {
             callHandler = new TechCall();
         }
         catch(Exception e){
-            System.out.println("Error establishing call support" + e);
+            System.out.println("Error establishing call support");
+            e.printStackTrace(System.out);
             System.exit(0);
         }
+        //new Thread(callHandler).start();
         callHandler.startCall();
         
     }

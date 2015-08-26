@@ -320,6 +320,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
 
     private void callBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_callBtnActionPerformed
         callBtn.setEnabled(false);
+        RPITechSuppCamViewer.callDevice(RPIList.getSelectedIndex());
     }//GEN-LAST:event_callBtnActionPerformed
 
     private void endCallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endCallBtnActionPerformed

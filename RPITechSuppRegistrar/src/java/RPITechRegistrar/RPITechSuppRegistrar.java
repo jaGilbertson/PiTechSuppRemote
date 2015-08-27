@@ -12,12 +12,6 @@ import javax.xml.ws.handler.*;
 import javax.servlet.http.*;
 import java.util.*;
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.PrintWriter;
-import java.io.File;
-import java.nio.file.Files;
 /**
  *
  * @author Jamie Gilbertson
@@ -116,7 +110,7 @@ public class RPITechSuppRegistrar{
             //return a String of all the online RPIs and their class data
             return convertListToString();
         }
-        else return "1%PASSWORDNOTOUNFD%PASSWORDNOTFOUND";
+        else return "1%PASSWORDNOTFOUNDD%PASSWORDNOTFOUND";
     }
     
     @WebMethod
@@ -125,7 +119,7 @@ public class RPITechSuppRegistrar{
             //return a String of all registered RPIs and their class data as stored in the DB
             return DBManager.getAll();
         }
-        else return "1%PASSWORDNOTOUNFD%PASSWORDNOTFOUND";
+        else return "1%PASSWORDNOTFOUND%PASSWORDNOTFOUND";
     }
     
     @WebMethod

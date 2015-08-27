@@ -12,6 +12,12 @@ import javax.xml.ws.handler.*;
 import javax.servlet.http.*;
 import java.util.*;
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.io.File;
+import java.nio.file.Files;
 /**
  *
  * @author Jamie Gilbertson
@@ -24,10 +30,32 @@ public class RPITechSuppRegistrar{
     private final HashMap<Integer, String> callSwitcher = new HashMap<>(); //stores IP adresses of clients initiating voice calls against ID of device to be called
     private int IDCounter = 1;
     private final int timeoutParam = 1; //timeout in seconds
+    private final static String serverPassword = "wvnuser";
     
     @Resource
     private WebServiceContext context; //to be used to get IP from ping requests
+   
     
+    @WebMethod
+    public boolean login(){
+        return checkPass();
+    }
+    
+    private boolean checkPass(){
+        MessageContext authContext = context.getMessageContext();
+        Map headers = (Map) authContext.get(MessageContext.HTTP_REQUEST_HEADERS);
+        List pw = (List) headers.get("Password");
+        String pass = "";
+        
+        if(pw != null){
+            pass = pw.get(0).toString();
+        }
+        
+        if(serverPassword.equals(pass))
+            return true;
+        else
+            return false;
+    }
     
     @WebMethod
     public int register(String location){
@@ -84,25 +112,33 @@ public class RPITechSuppRegistrar{
     
     @WebMethod
     public String getOnlineList(){
-        //return a String of all the online RPIs and their class data
-        return convertListToString();
+        if(checkPass()){
+            //return a String of all the online RPIs and their class data
+            return convertListToString();
+        }
+        else return "1%PASSWORDNOTOUNFD%PASSWORDNOTFOUND";
     }
     
     @WebMethod
     public String getRegisteredPiList(){
-        //return a String of all registered RPIs and their class data as stored in the DB
-        return DBManager.getAll();
+        if(checkPass()){
+            //return a String of all registered RPIs and their class data as stored in the DB
+            return DBManager.getAll();
+        }
+        else return "1%PASSWORDNOTOUNFD%PASSWORDNOTFOUND";
     }
     
     @WebMethod
     private void intitiateCall(String camString){
-        //method not used in project, but left in for future expandability
-        //to be called by a client wishing to start a voice chat with a device
-        RPICam temp = new RPICam(camString, 1);
-        MessageContext pingContext = context.getMessageContext();
-        HttpServletRequest pingRequest = (HttpServletRequest)pingContext.get(MessageContext.SERVLET_REQUEST);
-        //get the IP Address of the client wishing to initiate a call, and place that in callSwitcher against an ID for devices to check
-        callSwitcher.put(temp.getID(), pingRequest.getRemoteAddr());
+        if(checkPass()){
+            //method not used in project, but left in for future expandability
+            //to be called by a client wishing to start a voice chat with a device
+            RPICam temp = new RPICam(camString, 1);
+            MessageContext pingContext = context.getMessageContext();
+            HttpServletRequest pingRequest = (HttpServletRequest)pingContext.get(MessageContext.SERVLET_REQUEST);
+            //get the IP Address of the client wishing to initiate a call, and place that in callSwitcher against an ID for devices to check
+            callSwitcher.put(temp.getID(), pingRequest.getRemoteAddr());
+        }        
     }
     
     @WebMethod

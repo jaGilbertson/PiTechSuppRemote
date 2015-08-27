@@ -18,6 +18,9 @@ import java.awt.datatransfer.*;
 import java.awt.Toolkit;
 import javax.sound.sampled.LineUnavailableException;
 import java.net.SocketException;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.Service;
+import javax.xml.ws.handler.MessageContext;
 /**
  *
  * @author Jamie Gilbertson
@@ -30,6 +33,7 @@ public class RPITechSuppCamViewer {
     private static RPITechSuppRegistrarService service;
     private static RPITechSuppRegistrar port;
     private static TechSuppGUI GUI;
+    private static LoginForm loginForm;
     private static ArrayList<RPICam> camList  = new ArrayList<>();
     private static boolean listOnlineOnly = true;
     private static Thread refreshThread;
@@ -44,11 +48,28 @@ public class RPITechSuppCamViewer {
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error connecting to server: " + e, "Registrar Offline", JOptionPane.INFORMATION_MESSAGE);
         }
+        loginForm = new LoginForm();
+        loginForm.setVisible(true);
+    }
+    
+    public static boolean login(String password){
+        //to be called by GUI before enabling any controls
+        //add entered password to the HTTP request headers to authenticate at server
+        Map<String, Object> reqContext = ((BindingProvider)port).getRequestContext();
+        //reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, service.getWSDLDocumentLocation());
+        String temp = password;
+        Map<String, List<String>> header = new HashMap<>();
+        header.put("Password", Collections.singletonList(temp));
+        reqContext.put(MessageContext.HTTP_REQUEST_HEADERS, header);
+        
+        return port.login();
+    }
+    
+    public static void startGUI(){
         GUI = new TechSuppGUI();
         GUI.setVisible(true);
         refresh();
-        /*refreshThread = new Thread(new Refresher());
-        refreshThread.start();*/
+        loginForm.setVisible(false);
     }
     
     public static void refresh(){

@@ -19,7 +19,6 @@ import java.awt.Toolkit;
 import javax.sound.sampled.LineUnavailableException;
 import java.net.SocketException;
 import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
 import javax.xml.ws.handler.MessageContext;
 /**
  *
@@ -36,8 +35,10 @@ public class RPITechSuppCamViewer {
     private static LoginForm loginForm;
     private static ArrayList<RPICam> camList  = new ArrayList<>();
     private static boolean listOnlineOnly = true;
-    private static Thread refreshThread;
     private static TechCall call;
+    //deprecated
+    //private static Thread refreshThread;
+    
     
     public static void main(String[] args) {
         // TODO code application logic here
@@ -81,7 +82,7 @@ public class RPITechSuppCamViewer {
                 //if the onlineList has entries, split it and send the list to the GUI
                 String[] tempArr = temp.split(";");
                 String[] tempArr1;
-                
+                //clear the local list ready to be populated
                 camList.clear();
                 //populate local list
                 for(int i = 0; i < tempArr.length; i++){
@@ -190,6 +191,59 @@ public class RPITechSuppCamViewer {
         listOnlineOnly = set;
         refresh();
     }
+    
+    public static void updateLocationPanel(int index){
+        if(camList.size() > 0){
+            String location = camList.get(index).getLocation();
+            try{
+                GUI.updateLocationDetails(LocationDBManager.getIssues(location), LocationDBManager.getEquipment(location), location);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null,"Database Error " + e,"Alert",JOptionPane.WARNING_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static void addIssueToDB(String issue){
+        String location = camList.get(GUI.getSelectedLocationIndex()).getLocation();
+        try{
+            LocationDBManager.addIssue(location, issue);
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Database Error " + e,"Alert",JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    public static void addEquipmentToDB(String equip){
+        String location = camList.get(GUI.getSelectedLocationIndex()).getLocation();
+        try{
+            LocationDBManager.addIssue(location, equip);
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Database Error " + e,"Alert",JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    public static void removeIssueFromDB(String issue){
+        try{
+            LocationDBManager.removeIssue(issue, camList.get(GUI.getSelectedLocationIndex()).getLocation());
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Database Error " + e,"Alert",JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    public static void removeEquipmentFromDB(String equip){
+        try{
+            LocationDBManager.removeEquipment(equip, camList.get(GUI.getSelectedLocationIndex()).getLocation());
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Database Error " + e,"Alert",JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    //deprecated as it causes list to be repainted in GUI, which causes current selection to be reset
     /*
     public static class Refresher implements Runnable{
         

@@ -10,4 +10,6 @@
     <system systemId="http://192.168.1.100:44115/RPITechSuppRegistrar/RPITechSuppRegistrarService?xsd=1" uri="xml-resources/web-service-references/RPITechSuppRegistrarService/wsdl/192.168.1.100_44115/RPITechSuppRegistrar/RPITechSuppRegistrarService.xsd_1.xsd"/>
     <system systemId="http://192.168.1.102:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService?wsdl" uri="xml-resources/web-service-references/RPITechSuppRegistrarService/wsdl/192.168.1.102_8080/RPITechSuppRegistrar/RPITechSuppRegistrarService.wsdl"/>
     <system systemId="http://192.168.1.102:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService?xsd=1" uri="xml-resources/web-service-references/RPITechSuppRegistrarService/wsdl/192.168.1.102_8080/RPITechSuppRegistrar/RPITechSuppRegistrarService.xsd_1.xsd"/>
+    <system systemId="http://192.168.1.68:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService?wsdl" uri="xml-resources/web-service-references/RPITechSuppRegistrarService/wsdl/192.168.1.68_8080/RPITechSuppRegistrar/RPITechSuppRegistrarService.wsdl"/>
+    <system systemId="http://192.168.1.68:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService?xsd=1" uri="xml-resources/web-service-references/RPITechSuppRegistrarService/wsdl/192.168.1.68_8080/RPITechSuppRegistrar/RPITechSuppRegistrarService.xsd_1.xsd"/>
 </catalog>

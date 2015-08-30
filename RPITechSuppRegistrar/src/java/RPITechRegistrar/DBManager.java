@@ -19,7 +19,7 @@ public class DBManager {
     static final String username = "root";
     static final String password = "admin";
     
-    public static void registerPi( int ID, String location){
+    public static void registerPi(int ID, String location){
         Connection connection = null;
         Statement sqlStmt = null;
         try{

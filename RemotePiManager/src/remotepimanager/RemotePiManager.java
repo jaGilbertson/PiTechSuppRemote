@@ -12,6 +12,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.File;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.TargetDataLine;
 /**
  *
  * @author Jamie Gilbertson
@@ -26,21 +31,13 @@ public class RemotePiManager {
     private static BufferedReader lineReader;
     private static String confPath = "details.conf";
     private static TechCall callHandler;
-    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         //establish connection with server
-        try{
         service = new CamRegistrar.RPITechSuppRegistrarService();
         port = service.getRPITechSuppRegistrarPort();
-        }
-        catch(Exception e){
-            System.out.println("Error connecting to server: " + e);
-            System.exit(0);
-        }
-        
         //for RemotePiManager to run, the user must enter a location into details.conf which should be kept in the same location as RemotePiManager.jar
         
         //try to read the configuration file
@@ -124,7 +121,13 @@ public class RemotePiManager {
     }
     
     public static void pingServer(){
-        port.pingAlive(ID);
+        try{
+            port.pingAlive(ID);
+        }
+        catch(Exception e){
+            System.out.println("Error connecting to server: " + e);
+            System.exit(0);
+        }
     }
     
     public static class pingThread implements Runnable{

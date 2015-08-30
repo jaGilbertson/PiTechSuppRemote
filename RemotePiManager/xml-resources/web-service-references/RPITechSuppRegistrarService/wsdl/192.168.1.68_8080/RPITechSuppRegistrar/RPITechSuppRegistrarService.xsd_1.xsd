@@ -8,6 +8,10 @@
 
 <xs:element name="getRegisteredPiListResponse" type="tns:getRegisteredPiListResponse"/>
 
+<xs:element name="login" type="tns:login"/>
+
+<xs:element name="loginResponse" type="tns:loginResponse"/>
+
 <xs:element name="pingAlive" type="tns:pingAlive"/>
 
 <xs:element name="pingAliveResponse" type="tns:pingAliveResponse"/>
@@ -19,6 +23,16 @@
 <xs:element name="retire" type="tns:retire"/>
 
 <xs:element name="retireResponse" type="tns:retireResponse"/>
+
+<xs:complexType name="login">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="loginResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
 
 <xs:complexType name="register">
 <xs:sequence>
@@ -54,21 +68,21 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getRegisteredPiList">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="getRegisteredPiListResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="getOnlineList">
 <xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="getOnlineListResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getRegisteredPiList">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getRegisteredPiListResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>

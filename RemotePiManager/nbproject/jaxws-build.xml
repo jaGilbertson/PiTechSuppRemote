@@ -18,8 +18,8 @@
     </target>
     <target name="wsimport-client-RPITechSuppRegistrarService" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService"/>
-        <property name="wsdl-RPITechSuppRegistrarService" location="xml-resources/web-service-references/RPITechSuppRegistrarService/wsdl/192.168.1.102_8080/RPITechSuppRegistrar/RPITechSuppRegistrarService.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService" destdir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService" wsdl="${wsdl-RPITechSuppRegistrarService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://192.168.1.102:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService?wsdl" xnocompile="true" xendorsed="true" package="CamRegistrar">
+        <property name="wsdl-RPITechSuppRegistrarService" location="xml-resources/web-service-references/RPITechSuppRegistrarService/wsdl/192.168.1.68_8080/RPITechSuppRegistrar/RPITechSuppRegistrarService.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService" destdir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService" wsdl="${wsdl-RPITechSuppRegistrarService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://192.168.1.68:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService?wsdl" xnocompile="true" xendorsed="true" package="CamRegistrar">
             <depends file="${wsdl-RPITechSuppRegistrarService}"/>
             <produces dir="${build.generated.dir}/jax-wsCache/RPITechSuppRegistrarService"/>
         </wsimport>

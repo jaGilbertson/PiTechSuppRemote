@@ -86,13 +86,14 @@ public class TechCall{
     
     private void setupAudio() throws LineUnavailableException{
         //sets up the targetLine to use for capturing audio
+        
         System.out.println(getSupportedFormats(TargetDataLine.class));
-        
-        
         DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
         System.out.println(AudioSystem.isLineSupported(targetInfo));
         System.out.println(targetInfo.toString());
+        
         targetLine = (TargetDataLine) AudioSystem.getLine(targetInfo); //throws error
+        
         targetLine.open(format);
         
         System.out.println(getSupportedFormats(TargetDataLine.class));
@@ -102,6 +103,7 @@ public class TechCall{
         sourceLine = (SourceDataLine) AudioSystem.getLine(sourceInfo);
         sourceLine.open(format);
     }
+    
     public Vector<AudioFormat> getSupportedFormats(Class<?> dataLineClass) {
     /*
      * These define our criteria when searching for formats supported
@@ -177,7 +179,7 @@ public class TechCall{
         }
         
         //start Receiving and Sending threads
-        recordSendThread.start();
+        //recordSendThread.start();
         receivePlaybackThread.start();
     }
     

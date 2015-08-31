@@ -87,7 +87,7 @@ public class DBManager {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             connection = DriverManager.getConnection(DBURL, username, password);
             sqlStmt = connection.createStatement();
-            String sql = "DELETE FROM REGISTEREDPIS WHERE LOCATION=" + locString;
+            String sql = "DELETE FROM REGISTEREDPIS WHERE LOCATION='" + locString + "'";
             sqlStmt.executeUpdate(sql);
         }
         catch (SQLException se) {
@@ -116,8 +116,8 @@ public class DBManager {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             connection = DriverManager.getConnection(DBURL, username, password);
-            sqlStmt = connection.createStatement();
-            String sql = "SELECT 1 FROM REGISTEREDPIS WHERE LOCATION='" + locString + "'";
+            sqlStmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String sql = "SELECT ID,LOCATION FROM REGISTEREDPIS WHERE LOCATION='" + locString + "'";
             ResultSet dbResult = sqlStmt.executeQuery(sql);
             //check if the ResultSet has any rows and create return string if it does
             if(dbResult.isBeforeFirst()){

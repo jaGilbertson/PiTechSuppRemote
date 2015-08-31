@@ -61,6 +61,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
         locLbl = new javax.swing.JLabel();
         addLbl = new javax.swing.JLabel();
         endCallBtn = new javax.swing.JButton();
+        retirePiBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remote Support Viewer");
@@ -266,6 +267,14 @@ public class TechSuppGUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        retirePiBtn.setText("Retire Device");
+        retirePiBtn.setEnabled(false);
+        retirePiBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                retirePiBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -283,7 +292,8 @@ public class TechSuppGUI extends javax.swing.JFrame {
                                     .addComponent(callBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(listRefresh, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(openCamBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(copyBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE))
+                                    .addComponent(copyBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                                    .addComponent(retirePiBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(36, Short.MAX_VALUE))
@@ -301,7 +311,10 @@ public class TechSuppGUI extends javax.swing.JFrame {
                     .addComponent(viewComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(41, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -311,12 +324,13 @@ public class TechSuppGUI extends javax.swing.JFrame {
                                 .addGap(8, 8, 8)
                                 .addComponent(copyBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(listRefresh))
+                                .addComponent(listRefresh)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(retirePiBtn))
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))))
         );
 
         pack();
@@ -329,10 +343,12 @@ public class TechSuppGUI extends javax.swing.JFrame {
             RPITechSuppCamViewer.setListOnlineOnly(false);
             disableConnect();
             RPIList.repaint();
+            retirePiBtn.setEnabled(true);
         }
         else{
             piModel.clear();
             RPITechSuppCamViewer.setListOnlineOnly(true);
+            retirePiBtn.setEnabled(false);
         }
     }//GEN-LAST:event_viewComboBoxActionPerformed
 
@@ -389,6 +405,12 @@ public class TechSuppGUI extends javax.swing.JFrame {
     private void removeIssueBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeIssueBtnActionPerformed
         RPITechSuppCamViewer.removeIssueFromDB(issueModel.get(issueList.getSelectedIndex()).toString());
     }//GEN-LAST:event_removeIssueBtnActionPerformed
+
+    private void retirePiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retirePiBtnActionPerformed
+        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to retire this device?", "Please Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(response == JOptionPane.YES_OPTION)
+            RPITechSuppCamViewer.manualRetirePi(RPIList.getSelectedIndex());
+    }//GEN-LAST:event_retirePiBtnActionPerformed
 
     public void setCaller(String location, String address){
         locationLbl.setText(location);
@@ -535,6 +557,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
     private javax.swing.JLabel progressLbl;
     private javax.swing.JButton removeEquipBtn;
     private javax.swing.JButton removeIssueBtn;
+    private javax.swing.JButton retirePiBtn;
     private javax.swing.JComboBox viewComboBox;
     // End of variables declaration//GEN-END:variables
 }

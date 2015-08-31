@@ -247,6 +247,11 @@ public class RPITechSuppCamViewer {
         }
     }
     
+    public static void manualRetirePi(int index){
+        port.retire(camList.get(index).getLocation());
+        refresh();
+    }
+    
     //deprecated as it causes list to be repainted in GUI, which causes current selection to be reset
     /*
     public static class Refresher implements Runnable{

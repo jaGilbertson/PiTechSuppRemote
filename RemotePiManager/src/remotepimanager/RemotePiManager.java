@@ -73,7 +73,7 @@ public class RemotePiManager {
             ID = port.register(location);
             //if the location is already registered, the server will return 0 and the program should write this to line 3 of details.conf (which is never read by the program)
             if(ID != 0){
-            //try to write the new ID to the file
+                //try to write the new ID to the file
                 try{
                     //this should clear any error printouts from the file and write all correct details to it
                     PrintWriter writer = new PrintWriter(confPath);

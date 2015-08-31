@@ -22,7 +22,6 @@ import javax.annotation.Resource;
 public class RPITechSuppRegistrar{
     private final ArrayList<RPICam> onlinePis = new ArrayList<>(); //stores all online devices
     private final HashMap<Integer, String> callSwitcher = new HashMap<>(); //stores IP adresses of clients initiating voice calls against ID of device to be called
-    private int IDCounter = 1;
     private final int timeoutParam = 1; //timeout in seconds
     private final static String serverPassword = "wvnuser";
     
@@ -55,9 +54,8 @@ public class RPITechSuppRegistrar{
     public int register(String location){
         //Check if pi is already registered at that location. Return 0 if pi already registered. Return ID if pi successfully registered. IDs start from 1 and will never be 0.
         if(DBManager.getPi(location).equals("")){
-            DBManager.registerPi(IDCounter, location);
-            IDCounter++;
-            return IDCounter - 1;
+            DBManager.registerPi(DBManager.getNewID(), location);
+            return DBManager.getNewID() - 1;
         }
         else
         return 0;

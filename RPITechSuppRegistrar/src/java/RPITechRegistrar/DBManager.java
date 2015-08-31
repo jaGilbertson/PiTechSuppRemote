@@ -49,6 +49,47 @@ public class DBManager {
         }
     }
     
+    public static int getNewID(){
+        //Function to search through database to find the highest ID number and return an ID 1 higher than it, returns 0 if there is an error
+        Connection connection = null;
+        Statement sqlStmt = null;
+        int freeID = 1;
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            connection = DriverManager.getConnection(DBURL, username, password);
+            sqlStmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            String sql = "SELECT * FROM REGISTEREDPIS";
+            ResultSet dbResult = sqlStmt.executeQuery(sql);
+            //check if the ResultSet has any rows and create return string if it does
+            if(dbResult.isBeforeFirst()){
+                while(dbResult.next() != false){
+                    if( dbResult.getInt(1) > freeID){
+                        freeID = dbResult.getInt(1);
+                    }
+                }
+                return freeID + 1;
+            }
+            dbResult.close();
+        }
+        catch (SQLException se) {
+            se.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try{
+                if(connection != null) {
+                    connection.close();
+                }
+            }
+            catch(SQLException se) {
+                se.printStackTrace();
+            }
+        }        
+        return 0;
+    }
+    
     public static void retirePi(int ID) {
         Connection connection = null;
         Statement sqlStmt = null;
@@ -196,9 +237,7 @@ public class DBManager {
                 while(dbResult.next() != false){
                     returnString = returnString + dbResult.getString(1) + "%" + dbResult.getString(2) + ";";
                 }
-                //returnString = dbResult.getString(1) + "'" + dbResult.getString(2);
             }
-            
             dbResult.close();
         }
         catch (SQLException se) {

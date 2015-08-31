@@ -36,7 +36,7 @@ public class LocationDBManager {
         Statement sqlStmt = null;
 
         //try to add the issue into the DB
-        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Class.forName(JDBCDriver);
         connection = DriverManager.getConnection(DBURL, username, password);
         sqlStmt = connection.createStatement();
         String sql = "INSERT INTO ISSUES (LOCATION, ISSUE) " + " VALUES ( '" + location + "', '" + issue + "')";
@@ -50,7 +50,7 @@ public class LocationDBManager {
         Statement sqlStmt = null;
 
         //try to add the equipment into the DB
-        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Class.forName(JDBCDriver);
         connection = DriverManager.getConnection(DBURL, username, password);
         sqlStmt = connection.createStatement();
         String sql = "INSERT INTO EQUIPMENT (LOCATION, EQUIPMENT) " + " VALUES ( '" + location + "', '" + equip + "')";
@@ -65,7 +65,7 @@ public class LocationDBManager {
         Statement sqlStmt = null;
 
         //try to remove the entry from the DB
-        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Class.forName(JDBCDriver);
         connection = DriverManager.getConnection(DBURL, username, password);
         sqlStmt = connection.createStatement();
         String sql = "DELETE FROM ISSUES WHERE ISSUE='" + issue + "' AND LOCATION='" + location + "'";
@@ -80,7 +80,7 @@ public class LocationDBManager {
         Statement sqlStmt = null;
 
         //try to remove the entry from the DB
-        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Class.forName(JDBCDriver);
         connection = DriverManager.getConnection(DBURL, username, password);
         sqlStmt = connection.createStatement();
         String sql = "DELETE FROM EQUIPMENT WHERE EQUIPMENT='" + equip + "' AND LOCATION='" + location + "'";
@@ -95,7 +95,7 @@ public class LocationDBManager {
         Statement sqlStmt = null;
         ArrayList<String> issues = new ArrayList<>();
 
-        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Class.forName(JDBCDriver);
         connection = DriverManager.getConnection(DBURL, username, password);
         sqlStmt = connection.createStatement();
         String sql = "SELECT * FROM ISSUES WHERE LOCATION='" + location + "'";
@@ -117,7 +117,7 @@ public class LocationDBManager {
         Statement sqlStmt = null;
         ArrayList<String> equipment = new ArrayList<>();
 
-        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Class.forName(JDBCDriver);
         connection = DriverManager.getConnection(DBURL, username, password);
         sqlStmt = connection.createStatement();
         String sql = "SELECT * FROM EQUIPMENT WHERE LOCATION='" + location + "'";

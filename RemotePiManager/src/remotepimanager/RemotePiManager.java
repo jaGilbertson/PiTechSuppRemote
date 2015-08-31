@@ -12,11 +12,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.File;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.TargetDataLine;
 /**
  *
  * @author Jamie Gilbertson
@@ -107,6 +102,7 @@ public class RemotePiManager {
 
         pinger = new Thread(new pingThread());
         pinger.start();
+        /*
         try{
             callHandler = new TechCall();
         }
@@ -117,7 +113,7 @@ public class RemotePiManager {
         }
         //new Thread(callHandler).start();
         callHandler.startCall();
-        
+        */
     }
     
     public static void pingServer(){

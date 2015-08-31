@@ -44,8 +44,7 @@ public class AddEquipmentForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         equipField = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Add equipment");
+        setTitle("Add Equipment");
 
         doneBtn.setText("Done");
         doneBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -66,7 +65,7 @@ public class AddEquipmentForm extends javax.swing.JFrame {
                     .addComponent(doneBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                     .addComponent(jLabel1)
                     .addComponent(equipField))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,6 +80,7 @@ public class AddEquipmentForm extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void doneBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneBtnActionPerformed

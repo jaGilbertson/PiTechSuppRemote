@@ -89,7 +89,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        equipList.setModel(issueModel);
+        equipList.setModel(equipModel);
         equipList.setAutoscrolls(false);
         equipList.setEnabled(false);
         jScrollPane2.setViewportView(equipList);
@@ -101,7 +101,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
         locationLbl.setText("No Location Selected");
         locationLbl.setEnabled(false);
 
-        issueList.setModel(equipModel);
+        issueList.setModel(issueModel);
         issueList.setAutoscrolls(false);
         issueList.setEnabled(false);
         jScrollPane3.setViewportView(issueList);
@@ -191,7 +191,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(removeEquipBtn)
                     .addComponent(removeIssueBtn))
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         openCamBtn.setText("Open Camera");
@@ -301,7 +301,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
                     .addComponent(viewComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -314,9 +314,9 @@ public class TechSuppGUI extends javax.swing.JFrame {
                                 .addComponent(listRefresh))
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -369,7 +369,9 @@ public class TechSuppGUI extends javax.swing.JFrame {
 
     private void RPIListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_RPIListValueChanged
         //tell RPITechSuppCamViewer class to update location panel with relevant information
-        RPITechSuppCamViewer.updateLocationPanel(RPIList.getSelectedIndex());
+        if(RPIList.getSelectedIndex() > -1){
+            RPITechSuppCamViewer.updateLocationPanel(RPIList.getSelectedIndex());
+        }
     }//GEN-LAST:event_RPIListValueChanged
 
     private void addEquipBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEquipBtnActionPerformed

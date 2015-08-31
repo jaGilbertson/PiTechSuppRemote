@@ -45,7 +45,6 @@ public class AddIssueForm extends javax.swing.JFrame {
         doneBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Add Issue");
 
         issueBody.setColumns(20);
@@ -88,6 +87,7 @@ public class AddIssueForm extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void doneBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneBtnActionPerformed

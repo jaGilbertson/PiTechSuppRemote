@@ -209,6 +209,7 @@ public class RPITechSuppCamViewer {
         String location = camList.get(GUI.getSelectedLocationIndex()).getLocation();
         try{
             LocationDBManager.addIssue(location, issue);
+            updateLocationPanel(GUI.getSelectedLocationIndex());
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,"Database Error " + e,"Alert",JOptionPane.WARNING_MESSAGE);
@@ -218,7 +219,8 @@ public class RPITechSuppCamViewer {
     public static void addEquipmentToDB(String equip){
         String location = camList.get(GUI.getSelectedLocationIndex()).getLocation();
         try{
-            LocationDBManager.addIssue(location, equip);
+            LocationDBManager.addEquipment(location, equip);
+            updateLocationPanel(GUI.getSelectedLocationIndex());
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,"Database Error " + e,"Alert",JOptionPane.WARNING_MESSAGE);
@@ -228,6 +230,7 @@ public class RPITechSuppCamViewer {
     public static void removeIssueFromDB(String issue){
         try{
             LocationDBManager.removeIssue(issue, camList.get(GUI.getSelectedLocationIndex()).getLocation());
+            updateLocationPanel(GUI.getSelectedLocationIndex());
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,"Database Error " + e,"Alert",JOptionPane.WARNING_MESSAGE);
@@ -237,6 +240,7 @@ public class RPITechSuppCamViewer {
     public static void removeEquipmentFromDB(String equip){
         try{
             LocationDBManager.removeEquipment(equip, camList.get(GUI.getSelectedLocationIndex()).getLocation());
+            updateLocationPanel(GUI.getSelectedLocationIndex());
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null,"Database Error " + e,"Alert",JOptionPane.WARNING_MESSAGE);

@@ -22,12 +22,13 @@ public class DBManager {
     public static void registerPi(int ID, String location){
         Connection connection = null;
         Statement sqlStmt = null;
+        String locString = location.replace("'", "''");
         try{
             //try to add the new pi into the DB
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             connection = DriverManager.getConnection(DBURL, username, password);
             sqlStmt = connection.createStatement();
-            String sql = "INSERT INTO REGISTEREDPIS (ID, LOCATION) " + " VALUES ( " + ID + ", '" + location + "')";
+            String sql = "INSERT INTO REGISTEREDPIS (ID, LOCATION) " + " VALUES ( " + ID + ", '" + locString + "')";
             sqlStmt.executeUpdate(sql);
         }
         catch (SQLException se) {
@@ -80,12 +81,13 @@ public class DBManager {
     public static void retirePi(String location) {
         Connection connection = null;
         Statement sqlStmt = null;
+        String locString = location.replace("'", "''");
         try {
             //try to remove the pi from the DB (existence of entry should have already been checked)
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             connection = DriverManager.getConnection(DBURL, username, password);
             sqlStmt = connection.createStatement();
-            String sql = "DELETE FROM REGISTEREDPIS WHERE LOCATION=" + location;
+            String sql = "DELETE FROM REGISTEREDPIS WHERE LOCATION=" + locString;
             sqlStmt.executeUpdate(sql);
         }
         catch (SQLException se) {
@@ -110,11 +112,12 @@ public class DBManager {
         String returnString = "";
         Connection connection = null;
         Statement sqlStmt = null;
+        String locString = location.replace("'", "''");
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             connection = DriverManager.getConnection(DBURL, username, password);
             sqlStmt = connection.createStatement();
-            String sql = "SELECT 1 FROM REGISTEREDPIS WHERE LOCATION='" + location + "'";
+            String sql = "SELECT 1 FROM REGISTEREDPIS WHERE LOCATION='" + locString + "'";
             ResultSet dbResult = sqlStmt.executeQuery(sql);
             //check if the ResultSet has any rows and create return string if it does
             if(dbResult.isBeforeFirst()){

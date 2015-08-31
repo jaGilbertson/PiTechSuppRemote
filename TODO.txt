@@ -1,8 +1,8 @@
 TODO
 Voice Comms					    CLASS WRITTEN, INTEGRATED INTO CLIENT AND GUI
 Password access to server			    DONE (Could not read in from text file, password stored in source code)
-Manual deregister for client
-RMS Database integration			    TOO LATE (create generic database with tools to add files inc. gallery file system)
+Manual deregister for client			    DONE
+RMS Database integration			    DONE - TOO LATE (create generic database with tools to add files inc. gallery file system)
 Daemon for RPI					    DONE (add & to the end of the run program command)
 Registration process for RPI                        DONE
 Text file to read RPI details for RPI               DONE

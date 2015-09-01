@@ -54,7 +54,7 @@ public class TechCall{
     
     private TargetDataLine targetLine;
     private SourceDataLine sourceLine;
-    private AudioFormat format = new AudioFormat(8000, 16, 1, true, false); //sample rate 8kHz, sample size 16 bits, 1 channel, signed true, big Endian true
+    private AudioFormat format = new AudioFormat(8000, 16, 1, true, false); //sample rate 8kHz, sample size 16 bits, 1 channel, signed true, big Endian false
     
     public TechCall() throws SocketException, LineUnavailableException {
         //to be used by remote device to create new instance of TechCall that will wait to receive a packet before returning a call

@@ -31,8 +31,6 @@ public class RemotePiManager {
      */
     public static void main(String[] args) {
         //establish connection with server
-        
-        /*
         service = new CamRegistrar.RPITechSuppRegistrarService();
         port = service.getRPITechSuppRegistrarPort();
         //for RemotePiManager to run, the user must enter a location into details.conf which should be kept in the same location as RemotePiManager.jar
@@ -104,9 +102,6 @@ public class RemotePiManager {
 
         pinger = new Thread(new pingThread());
         pinger.start();
-        */
-        
-        
         
         try{
             callHandler = new TechCall();

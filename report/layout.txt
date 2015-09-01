@@ -1,0 +1,33 @@
+Report Layout
+
+Title Page
+Summar
+Declarations/Statements
+Acknoledgements
+Table of Contents
+Lists of Figures and Tables
+Abbreviations
+List of Symbols
+
+Introduction to project
+aims and objectives
+detailed specification and constraints
+Subsystem design 
+what was done
+	Raspberry Pi
+	Server
+	Client
+	Voice Chat
+Testing
+	How it was tested
+	Results of tests
+	Analysis of tests
+What the project has achieved
+Suggestions for future additions
+Retrospective analysis of project
+Conclusion(?)
+
+
+List of References
+Bibliography
+Appendices

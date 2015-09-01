@@ -20,6 +20,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
     DefaultListModel piModel = new DefaultListModel();
     DefaultListModel equipModel = new DefaultListModel();
     DefaultListModel issueModel = new DefaultListModel();
+    
     AddIssueForm issueAdder = new AddIssueForm();
     AddEquipmentForm equipAdder = new AddEquipmentForm();
     
@@ -65,6 +66,8 @@ public class TechSuppGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remote Support Viewer");
+        setMaximumSize(new java.awt.Dimension(1196, 596));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -72,6 +75,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
         });
 
         RPIList.setModel(piModel);
+        RPIList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         RPIList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 RPIListValueChanged(evt);
@@ -91,6 +95,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         equipList.setModel(equipModel);
+        equipList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         equipList.setAutoscrolls(false);
         equipList.setEnabled(false);
         jScrollPane2.setViewportView(equipList);
@@ -103,8 +108,10 @@ public class TechSuppGUI extends javax.swing.JFrame {
         locationLbl.setEnabled(false);
 
         issueList.setModel(issueModel);
+        issueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         issueList.setAutoscrolls(false);
         issueList.setEnabled(false);
+        issueList.setMaximumSize(new java.awt.Dimension(490, 0));
         jScrollPane3.setViewportView(issueList);
 
         pastIssueLbl.setText("Past Issues:");
@@ -181,10 +188,10 @@ public class TechSuppGUI extends javax.swing.JFrame {
                     .addComponent(eqAtThisLocLbl)
                     .addComponent(pastIssueLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3))
-                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addEquipBtn)
                     .addComponent(addIssueBtn))
@@ -192,7 +199,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(removeEquipBtn)
                     .addComponent(removeIssueBtn))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         openCamBtn.setText("Open Camera");
@@ -296,7 +303,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
                                     .addComponent(retirePiBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(36, Short.MAX_VALUE))
+                        .addContainerGap(18, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -313,9 +320,6 @@ public class TechSuppGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(41, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(openCamBtn)
@@ -328,9 +332,10 @@ public class TechSuppGUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(retirePiBtn))
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
 
         pack();
@@ -403,7 +408,8 @@ public class TechSuppGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_removeEquipBtnActionPerformed
 
     private void removeIssueBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeIssueBtnActionPerformed
-        RPITechSuppCamViewer.removeIssueFromDB(issueModel.get(issueList.getSelectedIndex()).toString());
+        //HTML was added to render the issue correctly in the JList, it needs to be removed before being used to search the database
+        RPITechSuppCamViewer.removeIssueFromDB(issueModel.get(issueList.getSelectedIndex()).toString().replace("<br>", "\n").replace("<HTML>",""));
     }//GEN-LAST:event_removeIssueBtnActionPerformed
 
     private void retirePiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retirePiBtnActionPerformed
@@ -478,7 +484,8 @@ public class TechSuppGUI extends javax.swing.JFrame {
         //update the issue model and repaint the list
         issueModel.clear();
         for (int i = 0; i < issues.size(); i++) {
-            issueModel.addElement(issues.get(i));
+            //replace newline characters with HTML breaks to allow proper formatting in JList
+            issueModel.addElement("<HTML>" + issues.get(i).replace("\n", "<br>"));
         }
         issueList.repaint();
         //update the equipment model and repaint the list

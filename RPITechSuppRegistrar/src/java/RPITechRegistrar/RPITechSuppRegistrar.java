@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 @WebService
 public class RPITechSuppRegistrar{
     private final ArrayList<RPICam> onlinePis = new ArrayList<>(); //stores all online devices
-    private final HashMap<Integer, String> callSwitcher = new HashMap<>(); //stores IP adresses of clients initiating voice calls against ID of device to be called
+    private final HashMap<Integer, String> callSwitcher = new HashMap<>(); //stores IP addresses of clients initiating voice calls against ID of device to be called
     private final int timeoutParam = 1; //timeout in seconds
     private final static String serverPassword = "wvnuser";
     
@@ -86,19 +86,21 @@ public class RPITechSuppRegistrar{
         String remoteHost = remoteAddress.getHostName();*/
 
         //iterate through pis already online and update the most recent ping if match is found
-        for(int i = 0; i < onlinePis.size(); i++){
-            if(onlinePis.get(i).getID() == ID){
-                //set the online information for the remote Pi
-                onlinePis.get(i).setLastPing(new Date());
-                onlinePis.get(i).setIPAddress(pingRequest.getRemoteAddr());
-                pingSet = true;
-                break;
+        synchronized(onlinePis){
+            for(int i = 0; i < onlinePis.size(); i++){
+                if(onlinePis.get(i).getID() == ID){
+                    //set the online information for the remote Pi
+                    onlinePis.get(i).setLastPing(new Date());
+                    onlinePis.get(i).setIPAddress(pingRequest.getRemoteAddr());
+                    pingSet = true;
+                    break;
+                }
             }
-        }
-        //if match was not found, grab pi from database and add it to onlinePis list with a new ping time
-        //it should be impossible for a pi to ping the server if it has not registered
-        if(!pingSet){
-            onlinePis.add(new RPICam(DBManager.getPi(ID), timeoutParam, new Date(), pingRequest.getRemoteAddr())); 
+            //if match was not found, grab pi from database and add it to onlinePis list with a new ping time
+            //it should be impossible for a pi to ping the server if it has not registered
+            if(!pingSet){
+                onlinePis.add(new RPICam(DBManager.getPi(ID), timeoutParam, new Date(), pingRequest.getRemoteAddr())); 
+            }
         }
     }
     
@@ -146,23 +148,25 @@ public class RPITechSuppRegistrar{
     private String convertListToString(){
         String tempString = "";
         //check if there are any online RPIs in the list
-        if(onlinePis.size() > 0){
-            //loop through the list of online pis and prune pis that are offline
-            for(int i =0; i < onlinePis.size(); i++){
-                //prune any pis that are outside the timeout parameter
-                if(!onlinePis.get(i).isPingWithinParam()){
-                    onlinePis.remove(i);
+        synchronized(onlinePis){
+            if(onlinePis.size() > 0){
+                //loop through the list of online pis and prune pis that are offline
+                for(int i =0; i < onlinePis.size(); i++){
+                    //prune any pis that are outside the timeout parameter
+                    if(!onlinePis.get(i).isPingWithinParam()){
+                        onlinePis.remove(i);
+                    }
                 }
             }
-        }
-        if(onlinePis.size() > 0){
-            //loop through the list of online pis and add each entry to a string to be returned
-            for(int i =0; i < onlinePis.size(); i++){
-                //list is returned as a string with entries separated by ;
-                tempString = tempString + ";" + onlinePis.get(i).toString();
+            if(onlinePis.size() > 0){
+                //loop through the list of online pis and add each entry to a string to be returned
+                for(int i =0; i < onlinePis.size(); i++){
+                    //list is returned as a string with entries separated by ;
+                    tempString = tempString + ";" + onlinePis.get(i).toString();
+                }
             }
+            //"" will be returned if there are no online RPIs, this should be validated client-side
+            return tempString;
         }
-        //"" will be returned if there are no online RPIs, this should be validated client-side
-        return tempString;
     }
 }

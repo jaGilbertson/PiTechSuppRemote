@@ -1,9 +1,9 @@
 Report Layout
 
 Title Page
-Summar
+Summary
 Declarations/Statements
-Acknoledgements
+Acknowledgements
 Table of Contents
 Lists of Figures and Tables
 Abbreviations

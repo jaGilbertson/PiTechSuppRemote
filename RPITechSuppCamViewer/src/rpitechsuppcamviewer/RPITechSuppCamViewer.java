@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 Jamie Gilbertson
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package rpitechsuppcamviewer;
 
@@ -120,7 +131,7 @@ public class RPITechSuppCamViewer {
                 //update GUI pi list
                 tempArr1 = new String[camList.size()];
                 for(int i = 0; i < camList.size(); i++){
-                    tempArr1[i] = camList.get(i).toDisplayString();                
+                    tempArr1[i] = camList.get(i).getLocation();                
                 }
                 GUI.updatePiList(tempArr1);
             }
@@ -193,6 +204,8 @@ public class RPITechSuppCamViewer {
     }
     
     public static void updateLocationPanel(int index){
+        //used to update the location specific details of a device when a device is selected in the GUI list
+        //method can be called when there are no entries in the list, so make sure there are actually devices in the local list before attempting to access it
         if(camList.size() > 0){
             String location = camList.get(index).getLocation();
             try{
@@ -206,6 +219,7 @@ public class RPITechSuppCamViewer {
     }
     
     public static void addIssueToDB(String issue){
+        //used to add a new issue to the database
         String location = camList.get(GUI.getSelectedLocationIndex()).getLocation();
         try{
             LocationDBManager.addIssue(location, issue);
@@ -217,6 +231,7 @@ public class RPITechSuppCamViewer {
     }
     
     public static void addEquipmentToDB(String equip){
+        //used to add a new piece of equipment to the database
         String location = camList.get(GUI.getSelectedLocationIndex()).getLocation();
         try{
             LocationDBManager.addEquipment(location, equip);
@@ -228,6 +243,7 @@ public class RPITechSuppCamViewer {
     }
     
     public static void removeIssueFromDB(String issue){
+        //used to remove an issue from the database
         try{
             LocationDBManager.removeIssue(issue, camList.get(GUI.getSelectedLocationIndex()).getLocation());
             updateLocationPanel(GUI.getSelectedLocationIndex());
@@ -238,6 +254,7 @@ public class RPITechSuppCamViewer {
     }
     
     public static void removeEquipmentFromDB(String equip){
+        //used to remove a piece of equipment from the database
         try{
             LocationDBManager.removeEquipment(equip, camList.get(GUI.getSelectedLocationIndex()).getLocation());
             updateLocationPanel(GUI.getSelectedLocationIndex());
@@ -248,11 +265,12 @@ public class RPITechSuppCamViewer {
     }
     
     public static void manualRetirePi(int index){
+        //used to retire devices
         port.retire(camList.get(index).getLocation());
         refresh();
     }
     
-    //deprecated as it causes list to be repainted in GUI, which causes current selection to be reset
+    //removed as it causes list to be repainted in GUI, which causes current selection to be reset, included in case of future reversion
     /*
     public static class Refresher implements Runnable{
         

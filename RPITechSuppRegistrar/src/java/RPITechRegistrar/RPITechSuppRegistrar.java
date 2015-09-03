@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 Jamie Gilbertson
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package RPITechRegistrar;
 
@@ -74,16 +85,11 @@ public class RPITechSuppRegistrar{
     
     @WebMethod
     public void pingAlive(int ID){
-        //TODO
         //RPIs call this method to ping to say they are online. They should do this as often as the timeout parameter. RPIs are incapable of pinging if they aren't registered.
         boolean pingSet = false;
         //retreive IP address from message context
         MessageContext pingContext = context.getMessageContext();
         HttpServletRequest pingRequest = (HttpServletRequest)pingContext.get(MessageContext.SERVLET_REQUEST);
-        
-        /*HttpExchange exchange = (HttpExchange)msgx.get("com.sun.xml.ws.http.exchange");
-        InetSocketAddress remoteAddress = exchange.getRemoteAddress();
-        String remoteHost = remoteAddress.getHostName();*/
 
         //iterate through pis already online and update the most recent ping if match is found
         synchronized(onlinePis){

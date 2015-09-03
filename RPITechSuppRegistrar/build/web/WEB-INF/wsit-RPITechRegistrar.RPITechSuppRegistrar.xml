@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <definitions 
+ xmlns="http://schemas.xmlsoap.org/wsdl/" 
+ xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="RPITechSuppRegistrarService" targetNamespace="http://RPITechRegistrar/" xmlns:tns="http://RPITechRegistrar/" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:sc="http://schemas.sun.com/2006/03/wss/server" xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy" xmlns:fi="http://java.sun.com/xml/ns/wsit/2006/09/policy/fastinfoset/service" xmlns:tcp="http://java.sun.com/xml/ns/wsit/2006/09/policy/soaptcp/service" 
+ >
+    <message name="login"/>
+    <message name="loginResponse"/>
+    <message name="register"/>
+    <message name="registerResponse"/>
+    <message name="retire"/>
+    <message name="retireResponse"/>
+    <message name="pingAlive"/>
+    <message name="pingAliveResponse"/>
+    <message name="getOnlineList"/>
+    <message name="getOnlineListResponse"/>
+    <message name="getRegisteredPiList"/>
+    <message name="getRegisteredPiListResponse"/>
+    <portType name="RPITechSuppRegistrar">
+        <operation name="login">
+            <input message="tns:login"/>
+            <output message="tns:loginResponse"/>
+        </operation>
+        <operation name="register">
+            <input message="tns:register"/>
+            <output message="tns:registerResponse"/>
+        </operation>
+        <operation name="retire">
+            <input message="tns:retire"/>
+            <output message="tns:retireResponse"/>
+        </operation>
+        <operation name="pingAlive">
+            <input message="tns:pingAlive"/>
+            <output message="tns:pingAliveResponse"/>
+        </operation>
+        <operation name="getOnlineList">
+            <input message="tns:getOnlineList"/>
+            <output message="tns:getOnlineListResponse"/>
+        </operation>
+        <operation name="getRegisteredPiList">
+            <input message="tns:getRegisteredPiList"/>
+            <output message="tns:getRegisteredPiListResponse"/>
+        </operation>
+    </portType>
+    <binding name="RPITechSuppRegistrarPortBinding" type="tns:RPITechSuppRegistrar">
+        <wsp:PolicyReference URI="#RPITechSuppRegistrarPortBindingPolicy"/>
+        <operation name="login">
+            <input></input>
+            <output></output>
+        </operation>
+        <operation name="register">
+            <input></input>
+            <output></output>
+        </operation>
+        <operation name="retire">
+            <input></input>
+            <output></output>
+        </operation>
+        <operation name="pingAlive">
+            <input></input>
+            <output></output>
+        </operation>
+        <operation name="getOnlineList">
+            <input></input>
+            <output></output>
+        </operation>
+        <operation name="getRegisteredPiList">
+            <input></input>
+            <output></output>
+        </operation>
+    </binding>
+    <service name="RPITechSuppRegistrarService">
+        <port name="RPITechSuppRegistrarPort" binding="tns:RPITechSuppRegistrarPortBinding"/>
+    </service>
+    <wsp:Policy wsu:Id="RPITechSuppRegistrarPortBindingPolicy">
+        <wsp:ExactlyOne>
+            <wsp:All/>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+</definitions>

@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 Jamie Gilbertson
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package rpitechsuppcamviewer;
 
@@ -343,6 +354,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void viewComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewComboBoxActionPerformed
+            disableLocViewer();
         if(viewComboBox.getSelectedIndex() == 1){
             piModel.clear();
             RPITechSuppCamViewer.setListOnlineOnly(false);
@@ -503,7 +515,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
     public int getSelectedLocationIndex(){
         return RPIList.getSelectedIndex();        
     }
-
+    
     /**
      * @param args the command line arguments
      */

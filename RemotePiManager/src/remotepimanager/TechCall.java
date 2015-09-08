@@ -22,9 +22,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.net.SocketException;
-import java.util.Vector;
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.SourceDataLine;
@@ -63,7 +61,7 @@ public class TechCall{
         IPAddress = "";
         recordSend = new RecordingThread();
         receivePlayback = new PlaybackThread();
-        recordSendThread = new Thread(recordSend);
+        //recordSendThread = new Thread(recordSend); DISABLED DUE TO ERRORS IN RECORDING AUDIO ON REMOTE DEVICE
         receivePlaybackThread = new Thread(receivePlayback);
 
         socket = new DatagramSocket(port);
@@ -76,7 +74,7 @@ public class TechCall{
     public TechCall(String address) throws SocketException, LineUnavailableException {
         //to be used by client to create new instance of TechCall to start a new call with a remote device
         IPAddress = address;
-        recordSendThread = new Thread(new RecordingThread());
+        //recordSendThread = new Thread(new RecordingThread()); DISABLED DUE TO ERRORS IN RECORDING AUDIO ON REMOTE DEVICE
         receivePlaybackThread = new Thread(new PlaybackThread());
 
         socket = new DatagramSocket(port);
@@ -87,62 +85,17 @@ public class TechCall{
     private void setupAudio() throws LineUnavailableException{
         //sets up the targetLine to use for capturing audio
         
-        System.out.println(getSupportedFormats(TargetDataLine.class));
-        DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
-        System.out.println(AudioSystem.isLineSupported(targetInfo));
-        System.out.println(targetInfo.toString());
-        
+        /* DISABLED DUE TO ERRORS IN RECORDING AUDIO ON REMOTE DEVICE
+        DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);        
         targetLine = (TargetDataLine) AudioSystem.getLine(targetInfo); //throws error
-        
         targetLine.open(format);
-        
-        System.out.println(getSupportedFormats(TargetDataLine.class));
-        
+        */
         DataLine.Info sourceInfo = new DataLine.Info(SourceDataLine.class, format);
-        System.out.println(AudioSystem.isLineSupported(sourceInfo));
         sourceLine = (SourceDataLine) AudioSystem.getLine(sourceInfo);
         sourceLine.open(format);
     }
     
-    public Vector<AudioFormat> getSupportedFormats(Class<?> dataLineClass) {
-    /*
-     * These define our criteria when searching for formats supported
-     * by Mixers on the system.
-     */
-    float sampleRates[] = { (float) 8000.0, (float) 16000.0, (float) 44100.0 };
-    int channels[] = { 1, 2 };
-    int bytesPerSample[] = { 2 };
-
-    AudioFormat format;
-    DataLine.Info lineInfo;
-
-    Vector<AudioFormat> formats = new Vector<AudioFormat>();
-
-    for (Mixer.Info mixerInfo : AudioSystem.getMixerInfo()) {
-        for (int a = 0; a < sampleRates.length; a++) {
-            for (int b = 0; b < channels.length; b++) {
-                for (int c = 0; c < bytesPerSample.length; c++) {
-                    format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                            sampleRates[a], 8 * bytesPerSample[c], channels[b], bytesPerSample[c],
-                            sampleRates[a], false);
-                    lineInfo = new DataLine.Info(dataLineClass, format);
-                    if (AudioSystem.isLineSupported(lineInfo)) {
-                        /*
-                         * TODO: To perform an exhaustive search on supported lines, we should open
-                         * TODO: each Mixer and get the supported lines. Do this if this approach
-                         * TODO: doesn't give decent results. For the moment, we just work with whatever
-                         * TODO: the unopened mixers tell us.
-                         */
-                        if (AudioSystem.getMixer(mixerInfo).isLineSupported(lineInfo)) {
-                            formats.add(format);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return formats;
-}
+    
     public void startCall(){
         if(IPAddress.equals("")){
             //if instance has been created without an address, the thread will wait until it receives a packet to initiate the call
@@ -179,14 +132,14 @@ public class TechCall{
         }
         
         //start Receiving and Sending threads
-        //recordSendThread.start();
+        //recordSendThread.start(); DISABLED DUE TO ERRORS IN RECORDING AUDIO ON REMOTE DEVICE
         receivePlaybackThread.start();
     }
     
     public void stopCall(){
         //ask Receiving and Sending threads to stop gracefully
         receivePlayback.stopThread();
-        recordSend.stopThread();
+        //recordSend.stopThread(); DISABLED DUE TO ERRORS IN RECORDING AUDIO ON REMOTE DEVICE
     }
     
     public class RecordingThread implements Runnable{

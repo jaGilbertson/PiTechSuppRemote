@@ -107,7 +107,7 @@ public class RPITechSuppCamViewer {
                     tempArr1[i] = camList.get(i).toDisplayString();                
                 }
                 GUI.updatePiList(tempArr1);
-                GUI.enableConnect();
+                GUI.disableConnect();
             }
             else{
                 //if the onlineList has no entries, just give the GUI an array saying there are no active cameras
@@ -162,10 +162,12 @@ public class RPITechSuppCamViewer {
     }
     
     public static void callDevice(int index){
-        if(listOnlineOnly){
+        if(listOnlineOnly && index > -1){
             try{
             //start new call
             call = new TechCall(camList.get(index).getIPAddress());
+            call.startCall();
+            GUI.setCaller(camList.get(index).getLocation(), camList.get(index).getIPAddress());
             }
             catch(LineUnavailableException e){
                 JOptionPane.showMessageDialog(null,"Error with Audio: " + e,"Alert",JOptionPane.WARNING_MESSAGE);
@@ -173,8 +175,6 @@ public class RPITechSuppCamViewer {
             catch(SocketException e){
                 JOptionPane.showMessageDialog(null,"Error establishing connection: " + e,"Alert",JOptionPane.WARNING_MESSAGE);
             }
-            call.startCall();
-            GUI.setCaller(camList.get(index).getLocation(), camList.get(index).getIPAddress());
         }
         else{
             JOptionPane.showMessageDialog(null,"Camera Offline","Alert",JOptionPane.WARNING_MESSAGE);
@@ -184,10 +184,12 @@ public class RPITechSuppCamViewer {
     public static void endCall(){
         //Validate in GUI to ensure this cannot be called without a preceding call to callDevice()
         call.stopCall();        
+        GUI.disableCallInterface();
     }
     
     public static void informCallTimedOut(){
         GUI.disableCallInterface();
+        call.stopCall();
     }
     
     public static void copyIP(int index){

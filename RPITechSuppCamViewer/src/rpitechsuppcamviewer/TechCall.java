@@ -73,10 +73,13 @@ public class TechCall{
     public TechCall(String address) throws SocketException, LineUnavailableException {
         //to be used by client to create new instance of TechCall to start a new call with a remote device
         IPAddress = address;
-        recordSendThread = new Thread(new RecordingThread());
-        receivePlaybackThread = new Thread(new PlaybackThread());
+        recordSend = new RecordingThread();
+        receivePlayback = new PlaybackThread();
+        recordSendThread = new Thread(recordSend);
+        receivePlaybackThread = new Thread(receivePlayback);
 
         socket = new DatagramSocket(port);
+        socket.setSoTimeout(timeout);
 
         setupAudio();
     }
@@ -84,12 +87,10 @@ public class TechCall{
     private void setupAudio() throws LineUnavailableException{
         //sets up the targetLine to use for capturing audio    
         DataLine.Info targetInfo = new DataLine.Info(TargetDataLine.class, format);
-        System.out.println(AudioSystem.isLineSupported(targetInfo));
         targetLine = (TargetDataLine) AudioSystem.getLine(targetInfo);
         targetLine.open(format);
         
         DataLine.Info sourceInfo = new DataLine.Info(SourceDataLine.class, format);
-        System.out.println(AudioSystem.isLineSupported(sourceInfo));
         sourceLine = (SourceDataLine) AudioSystem.getLine(sourceInfo);
         sourceLine.open(format);
     }
@@ -135,8 +136,13 @@ public class TechCall{
     
     public void stopCall(){
         //ask Receiving and Sending threads to stop gracefully
-        receivePlayback.stopThread();
         recordSend.stopThread();
+        receivePlayback.stopThread();
+        recordSend = new RecordingThread();
+        receivePlayback = new PlaybackThread();
+        recordSendThread = new Thread(recordSend);
+        receivePlaybackThread = new Thread(receivePlayback);
+        socket.close();
     }
     
     public class RecordingThread implements Runnable{
@@ -154,7 +160,7 @@ public class TechCall{
                 socket.send(sendPack);
                 }
                 catch(IOException e){
-                    System.out.println(e);
+                    break;
                 }
             }
             //flush and end targetLine
@@ -183,11 +189,14 @@ public class TechCall{
                     socket.receive(recPack); //thread will wait here until a packet is received
                 }
                 catch(SocketTimeoutException e){
-                    stopCall(); //call has timed out, so end all threads
-                    RPITechSuppCamViewer.informCallTimedOut(); //call has timed out, so inform controller
-                    break;
+                    System.out.println("Timeout reached");
+                    //all actions disabled due to issue with Raspberry Pi sending audio
+                    //stopCall(); //call has timed out, so end all threads
+                    //RPITechSuppCamViewer.informCallTimedOut(); //call has timed out, so inform controller
+                    //break;
                 }
                 catch(IOException e){
+                    break;
                 }
                 //TODO playback received bytes
                 sourceLine.write(recBuf, 0, bufSize);

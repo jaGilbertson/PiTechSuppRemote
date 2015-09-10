@@ -35,7 +35,7 @@ public class RemotePiManager {
     private static Thread pinger;
     private static FileReader reader;
     private static BufferedReader lineReader;
-    private static String confPath = "details.conf";
+    private static String confPath = "home/pi/RemotePiManager/details.conf";
     private static TechCall callHandler;
     /**
      * @param args the command line arguments
@@ -114,17 +114,7 @@ public class RemotePiManager {
         pinger = new Thread(new pingThread());
         pinger.start();
         
-        try{
-            callHandler = new TechCall();
-        }
-        catch(Exception e){
-            System.out.println("Error establishing call support");
-            e.printStackTrace(System.out);
-            System.exit(0);
-        }
-        //new Thread(callHandler).start();
-        callHandler.startCall();
-        
+        createAndStartCallHandler();
     }
     
     public static void pingServer(){
@@ -137,10 +127,21 @@ public class RemotePiManager {
         }
     }
     
+    public static void createAndStartCallHandler(){
+        try{
+            callHandler = new TechCall();
+        }
+        catch(Exception e){
+            System.out.println("Error establishing call support");
+            e.printStackTrace(System.out);
+            System.exit(0);
+        }
+        callHandler.startCall();
+    }
+    
     public static class pingThread implements Runnable{
         public void run(){
             while(true){
-                System.out.println("Pinging server");
                 pingServer();
                 try{
                     Thread.sleep(1000);

@@ -2,7 +2,7 @@
 <wsp:Policy wsu:Id="RPITechSuppRegistrarPortBindingPolicy"/>
 <types>
 <xsd:schema>
-<xsd:import namespace="http://RPITechRegistrar/" schemaLocation="http://192.168.1.68:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService?xsd=1"/>
+<xsd:import namespace="http://RPITechRegistrar/" schemaLocation="http://192.168.0.11:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService?xsd=1"/>
 </xsd:schema>
 </types>
 <message name="register">
@@ -11,29 +11,17 @@
 <message name="registerResponse">
 <part name="parameters" element="tns:registerResponse"/>
 </message>
-<message name="getRegisteredPiList">
-<part name="parameters" element="tns:getRegisteredPiList"/>
-</message>
-<message name="getRegisteredPiListResponse">
-<part name="parameters" element="tns:getRegisteredPiListResponse"/>
-</message>
 <message name="login">
 <part name="parameters" element="tns:login"/>
 </message>
 <message name="loginResponse">
 <part name="parameters" element="tns:loginResponse"/>
 </message>
-<message name="pingAlive">
-<part name="parameters" element="tns:pingAlive"/>
+<message name="getRegisteredPiList">
+<part name="parameters" element="tns:getRegisteredPiList"/>
 </message>
-<message name="pingAliveResponse">
-<part name="parameters" element="tns:pingAliveResponse"/>
-</message>
-<message name="retire">
-<part name="parameters" element="tns:retire"/>
-</message>
-<message name="retireResponse">
-<part name="parameters" element="tns:retireResponse"/>
+<message name="getRegisteredPiListResponse">
+<part name="parameters" element="tns:getRegisteredPiListResponse"/>
 </message>
 <message name="getOnlineList">
 <part name="parameters" element="tns:getOnlineList"/>
@@ -41,30 +29,42 @@
 <message name="getOnlineListResponse">
 <part name="parameters" element="tns:getOnlineListResponse"/>
 </message>
+<message name="retire">
+<part name="parameters" element="tns:retire"/>
+</message>
+<message name="retireResponse">
+<part name="parameters" element="tns:retireResponse"/>
+</message>
+<message name="pingAlive">
+<part name="parameters" element="tns:pingAlive"/>
+</message>
+<message name="pingAliveResponse">
+<part name="parameters" element="tns:pingAliveResponse"/>
+</message>
 <portType name="RPITechSuppRegistrar">
 <operation name="register">
 <input wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/registerRequest" message="tns:register"/>
 <output wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/registerResponse" message="tns:registerResponse"/>
 </operation>
-<operation name="getRegisteredPiList">
-<input wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/getRegisteredPiListRequest" message="tns:getRegisteredPiList"/>
-<output wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/getRegisteredPiListResponse" message="tns:getRegisteredPiListResponse"/>
-</operation>
 <operation name="login">
 <input wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/loginRequest" message="tns:login"/>
 <output wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/loginResponse" message="tns:loginResponse"/>
 </operation>
-<operation name="pingAlive">
-<input wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/pingAliveRequest" message="tns:pingAlive"/>
-<output wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/pingAliveResponse" message="tns:pingAliveResponse"/>
+<operation name="getRegisteredPiList">
+<input wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/getRegisteredPiListRequest" message="tns:getRegisteredPiList"/>
+<output wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/getRegisteredPiListResponse" message="tns:getRegisteredPiListResponse"/>
+</operation>
+<operation name="getOnlineList">
+<input wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/getOnlineListRequest" message="tns:getOnlineList"/>
+<output wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/getOnlineListResponse" message="tns:getOnlineListResponse"/>
 </operation>
 <operation name="retire">
 <input wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/retireRequest" message="tns:retire"/>
 <output wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/retireResponse" message="tns:retireResponse"/>
 </operation>
-<operation name="getOnlineList">
-<input wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/getOnlineListRequest" message="tns:getOnlineList"/>
-<output wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/getOnlineListResponse" message="tns:getOnlineListResponse"/>
+<operation name="pingAlive">
+<input wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/pingAliveRequest" message="tns:pingAlive"/>
+<output wsam:Action="http://RPITechRegistrar/RPITechSuppRegistrar/pingAliveResponse" message="tns:pingAliveResponse"/>
 </operation>
 </portType>
 <binding name="RPITechSuppRegistrarPortBinding" type="tns:RPITechSuppRegistrar">
@@ -79,15 +79,6 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="getRegisteredPiList">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="login">
 <soap:operation soapAction=""/>
 <input>
@@ -97,16 +88,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="pingAlive">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="retire">
+<operation name="getRegisteredPiList">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -124,10 +106,28 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="retire">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="pingAlive">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 </binding>
 <service name="RPITechSuppRegistrarService">
 <port name="RPITechSuppRegistrarPort" binding="tns:RPITechSuppRegistrarPortBinding">
-<soap:address location="http://192.168.1.68:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService"/>
+<soap:address location="http://192.168.0.11:8080/RPITechSuppRegistrar/RPITechSuppRegistrarService"/>
 </port>
 </service>
 </definitions>

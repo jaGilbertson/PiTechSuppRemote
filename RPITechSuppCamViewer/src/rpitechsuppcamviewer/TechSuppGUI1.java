@@ -391,7 +391,7 @@ public class TechSuppGUI1 extends javax.swing.JFrame {
 
     private void RPIListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_RPIListValueChanged
         //tell RPITechSuppCamViewer class to update location panel with relevant information
-        if(RPIList.getSelectedIndex() > -1){
+        if(RPIList.getSelectedIndex() > -1 && !RPIList.getSelectedValue().toString().equals("No Available Cameras")){
             RPITechSuppCamViewer.updateLocationPanel(RPIList.getSelectedIndex());
         }
     }//GEN-LAST:event_RPIListValueChanged

@@ -19,7 +19,8 @@ package rpitechsuppcamviewer;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Simple Java swing form to handle adding entries to a database
+ * of equipment held at each location
  * @author Jamie Gilbertson
  */
 public class AddEquipmentForm extends javax.swing.JFrame {

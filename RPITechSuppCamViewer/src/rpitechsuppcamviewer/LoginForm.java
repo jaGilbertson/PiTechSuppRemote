@@ -19,8 +19,8 @@ package rpitechsuppcamviewer;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Mecha
+ * Simple Java Swing form to handle logging in to the client and starting the GUI
+ * @author Jamie Gilbertson
  */
 public class LoginForm extends javax.swing.JFrame {
 

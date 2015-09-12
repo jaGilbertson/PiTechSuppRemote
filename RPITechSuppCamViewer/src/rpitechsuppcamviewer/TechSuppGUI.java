@@ -19,8 +19,9 @@ package rpitechsuppcamviewer;
 import java.util.ArrayList;
 import javax.swing.*;
 /**
- *
- * @author Mecha
+ * GUI to handle all user interaction with the system.
+ * Contains views for managing devices, opening cameras, starting calls, and location-specific information.
+ * @author Jamie Gilbertson
  */
 public class TechSuppGUI extends javax.swing.JFrame {
 
@@ -427,6 +428,12 @@ public class TechSuppGUI extends javax.swing.JFrame {
             RPITechSuppCamViewer.manualRetirePi(RPIList.getSelectedIndex());
     }//GEN-LAST:event_retirePiBtnActionPerformed
 
+    /**
+     * Method to set the call interface details to those of the device being called,
+     * as well as the enable the controls contained within the call interface.
+     * @param location the location of the device being called
+     * @param address the address of the device being called
+     */
     public void setCaller(String location, String address){
         locLbl.setText(location);
         addLbl.setText(address);
@@ -435,6 +442,9 @@ public class TechSuppGUI extends javax.swing.JFrame {
         callBtn.setEnabled(false);
     }
     
+    /**
+     * Method to clear and disable the call interface.
+     */
     public void disableCallInterface(){
         endCallBtn.setEnabled(false);
         locLbl.setText("");
@@ -443,7 +453,11 @@ public class TechSuppGUI extends javax.swing.JFrame {
         progressLbl.setEnabled(false);
         callBtn.setEnabled(true);
     }
-        
+     
+    /**
+     * Method to update the list view of devices.
+     * @param listString array of string representations of devices to be added to the list view
+     */
     public void updatePiList(String[] listString){
         //update the RPIList with an updated list
         piModel.clear();
@@ -453,18 +467,27 @@ public class TechSuppGUI extends javax.swing.JFrame {
         RPIList.repaint();
     }
     
+    /**
+     * Method to disable controls related to online devices.
+     */
     public void disableConnect(){
         callBtn.setEnabled(false);
         openCamBtn.setEnabled(false);
         copyBtn.setEnabled(false);
     }
     
+    /**
+     * Method to enable controls related to online devices.
+     */
     public void enableConnect(){
         callBtn.setEnabled(true);
         openCamBtn.setEnabled(true);
         copyBtn.setEnabled(true);
     }
     
+    /**
+     * Method to enable the location view panel and the controls contained within it
+     */
     public void enableLocViewer(){
         locationLbl.setEnabled(true);
         eqAtThisLocLbl.setEnabled(true);
@@ -477,6 +500,9 @@ public class TechSuppGUI extends javax.swing.JFrame {
         removeIssueBtn.setEnabled(true);        
     }
     
+    /** 
+     * Method to disable the location view panel and the controls contained within it
+     */
     public void disableLocViewer(){
         locationLbl.setEnabled(false);
         eqAtThisLocLbl.setEnabled(false);
@@ -489,6 +515,12 @@ public class TechSuppGUI extends javax.swing.JFrame {
         removeIssueBtn.setEnabled(false);        
     }
     
+    /**
+     * Method to update the location panel with all the details relating to a specified location
+     * @param issues the list of issues to add to the list
+     * @param equipment the list of equipment to add to the list
+     * @param location the location whose details are being set
+     */
     public void updateLocationDetails(ArrayList<String> issues, ArrayList<String> equipment, String location){
         //update the issue model and repaint the list
         issueModel.clear();
@@ -509,6 +541,10 @@ public class TechSuppGUI extends javax.swing.JFrame {
         enableLocViewer();
     }
     
+    /**
+     * Method to get the index of the device currently selected in the list view
+     * @return the index of the device currently selected in the list view
+     */
     public int getSelectedLocationIndex(){
         return RPIList.getSelectedIndex();        
     }

@@ -32,7 +32,8 @@ import java.net.SocketException;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
 /**
- *
+ * Class that serves as the main controller for the Camera Viewer client
+ * to be used by technician users
  * @author Jamie Gilbertson
  */
 public class RPITechSuppCamViewer {
@@ -50,9 +51,11 @@ public class RPITechSuppCamViewer {
     //deprecated
     //private static Thread refreshThread;
     
-    
+    /**
+     * Main method that starts the Webservice object and opens the login form.
+     * @param args not used
+     */
     public static void main(String[] args) {
-        // TODO code application logic here
         try{
         service = new CamRegistrar.RPITechSuppRegistrarService();
         port = service.getRPITechSuppRegistrarPort();
@@ -64,11 +67,15 @@ public class RPITechSuppCamViewer {
         loginForm.setVisible(true);
     }
     
+    /**
+     * Method that sends a password passed to it to the server to be confirmed.
+     * @param password
+     * @return 
+     */
     public static boolean login(String password){
         //to be called by GUI before enabling any controls
         //add entered password to the HTTP request headers to authenticate at server
         Map<String, Object> reqContext = ((BindingProvider)port).getRequestContext();
-        //reqContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, service.getWSDLDocumentLocation());
         String temp = password;
         Map<String, List<String>> header = new HashMap<>();
         header.put("Password", Collections.singletonList(temp));
@@ -77,6 +84,9 @@ public class RPITechSuppCamViewer {
         return port.login();
     }
     
+    /**
+     * Method to create and start the main GUI
+     */
     public static void startGUI(){
         GUI = new TechSuppGUI();
         GUI.setVisible(true);
@@ -84,6 +94,11 @@ public class RPITechSuppCamViewer {
         loginForm.setVisible(false);
     }
     
+    /**
+     * Method to refresh the local list of camera devices based on whether the list
+     * is set to view only online devices, or to view all registered devices. This 
+     * method also refreshes the list view in the main GUI.
+     */
     public static void refresh(){
         //call getOnlineList() from web service refresh pi list
         if(listOnlineOnly){
@@ -143,6 +158,11 @@ public class RPITechSuppCamViewer {
         }
     }
     
+    /**
+     * Method to open an instance of the default browser that points to the camera
+     * viewing interface of a device indicated by the index passed to it
+     * @param index the list index of the device to view
+     */
     public static void openCam(int index){
         //open instance of the default browser to the address of the pi camera requested
         if(listOnlineOnly){
@@ -161,6 +181,12 @@ public class RPITechSuppCamViewer {
         }
     }
     
+    /**
+     * Method to start a call to the device indicated by the index password to it.
+     * Starts a new instance of TechCall to handle the call.
+     * @param index the list index of the device to call
+     * @see TechCall
+     */
     public static void callDevice(int index){
         if(listOnlineOnly && index > -1){
             try{
@@ -181,17 +207,29 @@ public class RPITechSuppCamViewer {
         }
     }
     
+    /**
+     * Method to end a call and disable the interface relating to ongoing calls.
+     */
     public static void endCall(){
         //Validate in GUI to ensure this cannot be called without a preceding call to callDevice()
         call.stopCall();        
         GUI.disableCallInterface();
     }
     
+    /**
+     * Method to be called when an ongoing call has timed out, usually called from TechCall.
+     * @see TechCall
+     */
     public static void informCallTimedOut(){
         GUI.disableCallInterface();
         call.stopCall();
     }
     
+    /**
+     * Method used to copy the IP Address of the device specified by the index passed to it
+     * and place it into the system's clipboard.
+     * @param index the list index of the device whose IP Address should be copied
+     */
     public static void copyIP(int index){
         //copy ip address of pi to clipboard, usually for SSH
         StringSelection stringSelection = new StringSelection (camList.get(index).getIPAddress());
@@ -199,12 +237,23 @@ public class RPITechSuppCamViewer {
         board.setContents (stringSelection, null);   
     }
     
+    /**
+     * Method used to set whether the local list should contain only online devices, or
+     * whether it should contain a list of all registered devices.
+     * @param set true if the list should contain only online devices, false to contain 
+     * all registered devices
+     */
     public static void setListOnlineOnly(boolean set){
         //to be accessed from GUI class
         listOnlineOnly = set;
         refresh();
     }
     
+    /**
+     * Method to update the Location Panel of the GUI with the information for the device
+     * indicated by the index passed to it.
+     * @param index the list index of the device to retrieve location information for
+     */
     public static void updateLocationPanel(int index){
         //used to update the location specific details of a device when a device is selected in the GUI list
         //method can be called when there are no entries in the list, so make sure there are actually devices in the local list before attempting to access it
@@ -220,6 +269,10 @@ public class RPITechSuppCamViewer {
         }
     }
     
+    /**
+     * Method to add an issue to the location database.
+     * @param issue the issue to be added
+     */
     public static void addIssueToDB(String issue){
         //used to add a new issue to the database
         String location = camList.get(GUI.getSelectedLocationIndex()).getLocation();
@@ -232,6 +285,10 @@ public class RPITechSuppCamViewer {
         }
     }
     
+    /**
+     * Method to add a piece of equipment to the location database.
+     * @param equip the equipment to be added
+     */
     public static void addEquipmentToDB(String equip){
         //used to add a new piece of equipment to the database
         String location = camList.get(GUI.getSelectedLocationIndex()).getLocation();
@@ -243,7 +300,11 @@ public class RPITechSuppCamViewer {
             JOptionPane.showMessageDialog(null,"Database Error " + e,"Alert",JOptionPane.WARNING_MESSAGE);
         }
     }
-    
+
+    /**
+     * Method to remove an issue from a specific location from the database.
+     * @param issue issue to remove
+     */
     public static void removeIssueFromDB(String issue){
         //used to remove an issue from the database
         try{
@@ -255,6 +316,10 @@ public class RPITechSuppCamViewer {
         }
     }
     
+    /**
+     * Method to remove a piece of equipment from a specific location from the database.
+     * @param equip 
+     */
     public static void removeEquipmentFromDB(String equip){
         //used to remove a piece of equipment from the database
         try{
@@ -266,16 +331,27 @@ public class RPITechSuppCamViewer {
         }
     }
     
+    /** 
+     * Method to manually remove a pi from the database managed by the server
+     * @param index the list index of the device to be removed
+     */
     public static void manualRetirePi(int index){
         //used to retire devices
         port.retire(camList.get(index).getLocation());
         refresh();
     }
     
-    //removed as it causes list to be repainted in GUI, which causes current selection to be reset, included in case of future reversion
-    /*
+    /**
+     * Class to refresh the list of devices automatically
+     * @deprecated in favour of manual refreshing due to clearing device selection upon every refresh
+     */
     public static class Refresher implements Runnable{
         
+        /**
+         * Runs a loop that refreshes the local device list every second
+         * @deprecated create new instance of Thread class using
+         * this class as constructor argument, then use thread.start
+         */
         public void run(){
             while(true){
                 refresh();
@@ -289,5 +365,4 @@ public class RPITechSuppCamViewer {
         }
 
     }
-    */
 }

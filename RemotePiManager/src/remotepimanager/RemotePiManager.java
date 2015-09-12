@@ -24,7 +24,10 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.File;
 /**
- *
+ * RemotePiManager
+ * Class to act as the main program to manage remote devices,
+ * each device should be running an instance of this class
+ * 
  * @author Jamie Gilbertson
  */
 public class RemotePiManager {
@@ -38,6 +41,20 @@ public class RemotePiManager {
     private static String confPath = "home/pi/RemotePiManager/details.conf";
     private static TechCall callHandler;
     /**
+     * Does not use any passed arguments.
+     * Looks for details.conf in assigned directory and reads it.
+     * If details.conf does not exist, main creates it and exits.
+     * The location the device is located must be manually entered
+     * into the first line of home/pi/RemotePiManager/details.conf
+     * If details.conf exists, but is empty, main prints error
+     * message and exits.
+     * If details.conf exists and has a location entered to the
+     * first line, main will attempt to register itself.
+     * When registering, if a 0 ID is returned, an error message is
+     * printed into details.conf
+     * If a realy ID is returned, this is written to the second line
+     * of details.conf and a server-pinging loop and an instance of 
+     * TechCall is started
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -111,12 +128,16 @@ public class RemotePiManager {
             }
         }
 
-        pinger = new Thread(new pingThread());
+        pinger = new Thread(new PingThread());
         pinger.start();
         
         createAndStartCallHandler();
     }
     
+    /**
+     * Method to ping the server to inform it that this device
+     * is online
+     */
     public static void pingServer(){
         try{
             port.pingAlive(ID);
@@ -127,6 +148,11 @@ public class RemotePiManager {
         }
     }
     
+    /**
+     * Method used to create an instance of TechCall class and
+     * start the call handler
+     * @see TechCall
+     */
     public static void createAndStartCallHandler(){
         try{
             callHandler = new TechCall();
@@ -138,8 +164,18 @@ public class RemotePiManager {
         }
         callHandler.startCall();
     }
-    
-    public static class pingThread implements Runnable{
+    /**
+    * Thread used to ping the server once every second
+    * 
+    * @author Jamie Gilbertson
+    */
+    public static class PingThread implements Runnable{
+        /**
+     * Runs a loop that calls pingServer() every second
+     * @deprecated create new instance of Thread class using
+     * this class as constructor argument, then use thread.start
+     * @see Thread
+     */
         public void run(){
             while(true){
                 pingServer();

@@ -18,7 +18,7 @@ package RPITechRegistrar;
 
 import java.sql.*;
 /**
- *
+ * Class to manage the database of registered devices
  * @author Jamie Gilbertson
  */
 public class DBManager {
@@ -30,6 +30,12 @@ public class DBManager {
     static final String username = "root";
     static final String password = "admin";
     
+    /** 
+     * Method to register a new device. Duplicate entries should already be checked before using
+     * this method to add a unique device.
+     * @param ID the ID of the device to be added
+     * @param location the Location of the device to be added
+     */
     public static void registerPi(int ID, String location){
         Connection connection = null;
         Statement sqlStmt = null;
@@ -60,6 +66,11 @@ public class DBManager {
         }
     }
     
+    /**
+     * Method to search through the database and return an ID integer 1 value higher than the
+     * current highest ID in the list.
+     * @return returns a valid new ID
+     */
     public static int getNewID(){
         //Function to search through database to find the highest ID number and return an ID 1 higher than it, returns 0 if there is an error
         Connection connection = null;
@@ -101,6 +112,10 @@ public class DBManager {
         return 0;
     }
     
+    /**
+     * Method to retire an existing device. Existence of this device should be checked before using this method.
+     * @param ID the ID of the device to retire
+     */
     public static void retirePi(int ID) {
         Connection connection = null;
         Statement sqlStmt = null;
@@ -130,6 +145,10 @@ public class DBManager {
         }
     }
     
+    /**
+     * Method to retire an existing device. Existence of this device should be checked before using this method.
+     * @param location the Location of the device to retire
+     */
     public static void retirePi(String location) {
         Connection connection = null;
         Statement sqlStmt = null;
@@ -160,6 +179,11 @@ public class DBManager {
         }
     }
     
+    /**
+     * Method to get the details of a device at a specified location
+     * @param location the location of the device whose details should be returned
+     * @return a string containing the ID and Location of the device separated by a '%' character
+     */
     public static String getPi(String location) {
         String returnString = "";
         Connection connection = null;
@@ -197,6 +221,11 @@ public class DBManager {
         return returnString;
     }
     
+    /**
+     * Method to get the details of a device with a specified ID
+     * @param ID the location of the device whose details should be returned
+     * @return a string containing the ID and Location of the device separated by a '%' character
+     */
     public static String getPi(int ID) {
         String returnString = "";
         Connection connection = null;
@@ -233,6 +262,12 @@ public class DBManager {
         return returnString;
     }
     
+    /**
+     * Method to get the entire list of all registered devices
+     * @return a String containing the entire list of devices, where each device is separated by
+     * a ';' character and each device's details contained the ID and Location separated by a
+     * '%' character
+     */
     public static String getAll(){
         String returnString = "";
         Connection connection = null;

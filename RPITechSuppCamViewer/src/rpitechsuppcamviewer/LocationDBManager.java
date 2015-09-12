@@ -18,8 +18,10 @@ package rpitechsuppcamviewer;
 
 import java.sql.*;
 import java.util.ArrayList;
+
 /**
- *
+ * Class to manage the database of locations and the equipment/issues
+ * specific to each location
  * @author Jamie Gilbertson
  */
 public class LocationDBManager {
@@ -31,6 +33,12 @@ public class LocationDBManager {
     static final String username = "root";
     static final String password = "admin";
     
+    /**
+     * Method to add a new issue to the database
+     * @param location the location that the issue is relevant to
+     * @param issue the issue to be entered
+     * @throws Exception 
+     */
     public static void addIssue(String location, String issue) throws Exception{
         Connection connection = null;
         Statement sqlStmt = null;
@@ -47,6 +55,12 @@ public class LocationDBManager {
         connection.close();
     }
     
+    /**
+     * Method to add a new piece of equipment to the database
+     * @param location the location the equipment is located at
+     * @param equip the name of the equipment to be entered
+     * @throws Exception 
+     */
     public static void addEquipment(String location, String equip)throws Exception{
         Connection connection = null;
         Statement sqlStmt = null;
@@ -63,6 +77,12 @@ public class LocationDBManager {
         connection.close();
     }
     
+    /**
+     * Method to remove an issue from a specific location
+     * @param issue the issue to be remove
+     * @param location the location to remove the issue from
+     * @throws Exception 
+     */
     public static void removeIssue(String issue, String location) throws Exception{
         //used to remove an issue from the database
         Connection connection = null;
@@ -80,6 +100,12 @@ public class LocationDBManager {
         connection.close();
     }
     
+    /**
+     * Method to remove a piece of equipment from a specific location
+     * @param equip the equipment to be removed
+     * @param location the location to remove the issue from
+     * @throws Exception 
+     */
     public static void removeEquipment(String equip, String location) throws Exception{
         //used to remove a piece of a equipment from the database
         Connection connection = null;
@@ -97,6 +123,12 @@ public class LocationDBManager {
         connection.close();
     }
 
+    /**
+     * Method that returns the list of all issues at a specified location
+     * @param location the location to retrieve issues for
+     * @return ArrayList of Strings of all the issues at a location
+     * @throws Exception 
+     */
     public static ArrayList<String> getIssues(String location) throws Exception {
         //used to return list of all previous issues at this location
         Connection connection = null;
@@ -120,6 +152,12 @@ public class LocationDBManager {
         return issues;
     }
     
+    /**
+     * Method that returns the list of all equipment at a specified location
+     * @param location the location to retrieve equipment for
+     * @return ArrayList of Strings of all the equipment at a location
+     * @throws Exception 
+     */
     public static ArrayList<String> getEquipment(String location) throws Exception {
         //used to return list of all equipment registered at this location
         Connection connection = null;

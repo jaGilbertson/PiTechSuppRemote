@@ -32,13 +32,13 @@ import javax.sound.sampled.Mixer;
 
     
 /**
- *
+ * Class to handle two-way audio calls between a client and
+ * a device.
+ * Note: this is an adjusted version of the TechCall class
+ * that has the audio recording and sending features disabled
+ * due to issues running it on a Raspberry Pi device.
  * @author Jamie Gilbertson
  */
-
-/*  Note, this is ad adjusted version of the TechCall class that has the audio recording
-    and sending features disabled due to issues running it on a Raspberry Pi device.
-*/
 public class TechCall{
 
     
@@ -60,6 +60,13 @@ public class TechCall{
     private SourceDataLine sourceLine;
     private AudioFormat format = new AudioFormat(8000, 16, 1, true, false); //sample rate 8kHz, sample size 16 bits, 1 channel, signed true, big Endian false
     
+    /**
+     * Constructor method used to create new instance of 
+     * TechCall that will wait to receive a UDP packet 
+     * before returning a call 
+     * @throws SocketException
+     * @throws LineUnavailableException 
+     */
     public TechCall() throws SocketException, LineUnavailableException {
         //to be used by remote device to create new instance of TechCall that will wait to receive a packet before returning a call
         IPAddress = "";
@@ -75,6 +82,13 @@ public class TechCall{
 
     }
     
+    /**
+     * Constructor method to create new instance of TechCall
+     * to start a new call with a remote device
+     * @param address String to send return UDP packets to
+     * @throws SocketException
+     * @throws LineUnavailableException 
+     */
     public TechCall(String address) throws SocketException, LineUnavailableException {
         //to be used by client to create new instance of TechCall to start a new call with a remote device
         IPAddress = address;
@@ -89,6 +103,12 @@ public class TechCall{
         setupAudio();
     }
     
+    /**
+     * Method to create and open audio recording and playback
+     * DataLines with correct audio format
+     * @throws LineUnavailableException 
+     * @see DataLine
+     */
     private void setupAudio() throws LineUnavailableException{
         //sets up the targetLine to use for capturing audio
         
@@ -102,7 +122,12 @@ public class TechCall{
         sourceLine.open(format);
     }
     
-    
+    /**
+     * Method used to start a call to the address passed to the constructor.
+     * If no address was set in the constructor then method will wait to
+     * receive a packet before starting threads to send packets back to 
+     * sender
+     */
     public void startCall(){
         if(IPAddress.equals("")){
             //if instance has been created without an address, the thread will wait until it receives a packet to initiate the call
@@ -142,6 +167,9 @@ public class TechCall{
         receivePlaybackThread.start();
     }
     
+    /**
+     * Method to halt ongoing call and reset all objects used during a call
+     */
     public void stopCall(){
         try{
         //ask Receiving and Sending threads to stop gracefully
@@ -158,9 +186,21 @@ public class TechCall{
         }
     }
     
+    /**
+     * Thread class that records audio from default system microphone to a byte array
+     * and sends to the stored IP address using UDP packets
+     */
     public class RecordingThread implements Runnable{
         private volatile boolean shouldStop = false;
         
+        /**
+         * Runs a loop to continuously record audio and send it to stored IP address
+         * using UDP packets.
+         * Checks shouldStop variable to see if it should continue running
+         * @deprecated create new instance of Thread class using
+         * this class as constructor argument, then use thread.start
+         * @see Thread
+         */
         public void run(){
             //start targetLine so that it delivers audio from the system
             targetLine.start();
@@ -182,14 +222,32 @@ public class TechCall{
             targetLine.close();
         }
         
+        /**
+         * Method to stop the thread gracefully
+         */
         public void stopThread(){
             shouldStop = true;
         }
     }
     
+    /**
+     * Thread class that waits to receive bytes from socket in UDP format
+     * and plays them back using default system speakers
+     */
     public class PlaybackThread implements Runnable{
         private volatile boolean shouldStop = false;
         
+        /**
+         * Runs a loop that waits for incoming UDP packets and plays them back
+         * over the default speakers of the system.
+         * Times out if no packet is received for 10 seconds.
+         * If timeout occurs, the call will be ended via stopCall() and 
+         * RemotePiManager.createAndStartCallHandler() will be called to
+         * reset callHandler object
+         * @deprecated create new instance of Thread class using
+         * this class as constructor argument, then use thread.start
+         * @see Thread
+         */
         public void run(){
             //start sourceLine to playback audio written to it
             sourceLine.start();
@@ -218,6 +276,9 @@ public class TechCall{
             sourceLine.close();
         }
         
+        /**
+         * Method to stop the thread gracefully
+         */
         public void stopThread(){
             shouldStop = true;
         }

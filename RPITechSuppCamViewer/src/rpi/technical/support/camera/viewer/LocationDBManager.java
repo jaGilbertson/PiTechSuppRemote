@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package rpitechsuppcamviewer;
+package rpi.technical.support.camera.viewer;
 
 import java.sql.*;
 import java.util.ArrayList;

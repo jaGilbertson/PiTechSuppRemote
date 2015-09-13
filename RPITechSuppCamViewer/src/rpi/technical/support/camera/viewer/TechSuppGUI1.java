@@ -14,16 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package rpitechsuppcamviewer;
+package rpi.technical.support.camera.viewer;
 
 import java.util.ArrayList;
 import javax.swing.*;
 /**
- * GUI to handle all user interaction with the system.
- * Contains views for managing devices, opening cameras, starting calls, and location-specific information.
- * @author Jamie Gilbertson
+ *
+ * @author Mecha
  */
-public class TechSuppGUI extends javax.swing.JFrame {
+public class TechSuppGUI1 extends javax.swing.JFrame {
 
     /**
      * Creates new form TechSuppGUI
@@ -36,7 +35,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
     AddIssueForm issueAdder = new AddIssueForm();
     AddEquipmentForm equipAdder = new AddEquipmentForm();
     
-    public TechSuppGUI() {
+    public TechSuppGUI1() {
         initComponents();
     }
 
@@ -68,18 +67,22 @@ public class TechSuppGUI extends javax.swing.JFrame {
         openCamBtn = new javax.swing.JButton();
         copyBtn = new javax.swing.JButton();
         listRefresh = new javax.swing.JButton();
+        callBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         progressLbl = new javax.swing.JLabel();
         locLbl = new javax.swing.JLabel();
         addLbl = new javax.swing.JLabel();
         endCallBtn = new javax.swing.JButton();
-        callBtn = new javax.swing.JButton();
         retirePiBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Remote Support Viewer");
-        setMaximumSize(new java.awt.Dimension(1196, 596));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         RPIList.setModel(piModel);
         RPIList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -108,11 +111,9 @@ public class TechSuppGUI extends javax.swing.JFrame {
         jScrollPane2.setViewportView(equipList);
 
         eqAtThisLocLbl.setText("Equipment at this location:");
-        eqAtThisLocLbl.setEnabled(false);
 
         locationLbl.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         locationLbl.setText("No Location Selected");
-        locationLbl.setEnabled(false);
 
         issueList.setModel(issueModel);
         issueList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -122,18 +123,15 @@ public class TechSuppGUI extends javax.swing.JFrame {
         jScrollPane3.setViewportView(issueList);
 
         pastIssueLbl.setText("Past Issues:");
-        pastIssueLbl.setEnabled(false);
 
         addEquipBtn.setText("Add Equipment");
-        addEquipBtn.setEnabled(false);
         addEquipBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addEquipBtnActionPerformed(evt);
             }
         });
 
-        removeEquipBtn.setText("Remove Selected Equipment");
-        removeEquipBtn.setEnabled(false);
+        removeEquipBtn.setText("Remove Equipment");
         removeEquipBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeEquipBtnActionPerformed(evt);
@@ -141,15 +139,13 @@ public class TechSuppGUI extends javax.swing.JFrame {
         });
 
         addIssueBtn.setText("Add Issue");
-        addIssueBtn.setEnabled(false);
         addIssueBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addIssueBtnActionPerformed(evt);
             }
         });
 
-        removeIssueBtn.setText("Remove Selected Issue");
-        removeIssueBtn.setEnabled(false);
+        removeIssueBtn.setText("Remove Issue");
         removeIssueBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeIssueBtnActionPerformed(evt);
@@ -196,7 +192,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
                     .addComponent(pastIssueLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -230,24 +226,22 @@ public class TechSuppGUI extends javax.swing.JFrame {
             }
         });
 
+        callBtn.setText("Start Call");
+        callBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                callBtnActionPerformed(evt);
+            }
+        });
+
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setEnabled(false);
 
         progressLbl.setText("Call in progress:-");
-        progressLbl.setEnabled(false);
 
         endCallBtn.setText("End call");
-        endCallBtn.setEnabled(false);
         endCallBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 endCallBtnActionPerformed(evt);
-            }
-        });
-
-        callBtn.setText("Call Selected Device");
-        callBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                callBtnActionPerformed(evt);
             }
         });
 
@@ -258,38 +252,30 @@ public class TechSuppGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(endCallBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(progressLbl)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(locLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(addLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 15, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(endCallBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(callBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                            .addComponent(locLbl)
+                            .addComponent(addLbl))
+                        .addGap(0, 62, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(progressLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(locLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(callBtn)
+                .addComponent(locLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(endCallBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         retirePiBtn.setText("Retire Device");
-        retirePiBtn.setEnabled(false);
         retirePiBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 retirePiBtnActionPerformed(evt);
@@ -310,6 +296,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(callBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(listRefresh, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(openCamBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(copyBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
@@ -336,11 +323,13 @@ public class TechSuppGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(openCamBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(copyBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(listRefresh)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(callBtn)
                                 .addGap(8, 8, 8)
+                                .addComponent(copyBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(listRefresh)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(retirePiBtn))
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -360,6 +349,7 @@ public class TechSuppGUI extends javax.swing.JFrame {
             RPITechSuppCamViewer.setListOnlineOnly(false);
             disableConnect();
             RPIList.repaint();
+            retirePiBtn.setEnabled(true);
         }
         else{
             piModel.clear();
@@ -370,7 +360,6 @@ public class TechSuppGUI extends javax.swing.JFrame {
 
     private void listRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listRefreshActionPerformed
         RPITechSuppCamViewer.refresh();
-        disableLocViewer();
     }//GEN-LAST:event_listRefreshActionPerformed
 
     private void openCamBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openCamBtnActionPerformed
@@ -385,22 +374,26 @@ public class TechSuppGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_copyBtnActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
+
     private void callBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_callBtnActionPerformed
+        callBtn.setEnabled(false);
+        endCallBtn.setEnabled(false);
         RPITechSuppCamViewer.callDevice(RPIList.getSelectedIndex());
     }//GEN-LAST:event_callBtnActionPerformed
 
     private void endCallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endCallBtnActionPerformed
         RPITechSuppCamViewer.endCall();
+        endCallBtn.setEnabled(false);
     }//GEN-LAST:event_endCallBtnActionPerformed
 
     private void RPIListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_RPIListValueChanged
         //tell RPITechSuppCamViewer class to update location panel with relevant information
-        if(RPIList.getSelectedIndex() > -1 && !RPIList.getSelectedValue().toString().equals("No active cameras"))
+        if(RPIList.getSelectedIndex() > -1 && !RPIList.getSelectedValue().toString().equals("No Available Cameras")){
             RPITechSuppCamViewer.updateLocationPanel(RPIList.getSelectedIndex());
-        if(RPIList.getSelectedIndex() > -1 && viewComboBox.getSelectedIndex() == 1 && !RPIList.getSelectedValue().toString().equals("No active cameras"))
-            retirePiBtn.setEnabled(true);
-        if(RPIList.getSelectedIndex() > -1 && viewComboBox.getSelectedIndex() == 0 && !RPIList.getSelectedValue().toString().equals("No active cameras"))
-            enableConnect();
+        }
     }//GEN-LAST:event_RPIListValueChanged
 
     private void addEquipBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEquipBtnActionPerformed
@@ -412,13 +405,11 @@ public class TechSuppGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_addIssueBtnActionPerformed
 
     private void removeEquipBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEquipBtnActionPerformed
-        if(equipList.getSelectedIndex() > -1)
         RPITechSuppCamViewer.removeEquipmentFromDB(equipModel.get(equipList.getSelectedIndex()).toString());
     }//GEN-LAST:event_removeEquipBtnActionPerformed
 
     private void removeIssueBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeIssueBtnActionPerformed
         //HTML was added to render the issue correctly in the JList, it needs to be removed before being used to search the database
-        if(issueList.getSelectedIndex() > -1)
         RPITechSuppCamViewer.removeIssueFromDB(issueModel.get(issueList.getSelectedIndex()).toString().replace("<br>", "\n").replace("<HTML>",""));
     }//GEN-LAST:event_removeIssueBtnActionPerformed
 
@@ -428,36 +419,21 @@ public class TechSuppGUI extends javax.swing.JFrame {
             RPITechSuppCamViewer.manualRetirePi(RPIList.getSelectedIndex());
     }//GEN-LAST:event_retirePiBtnActionPerformed
 
-    /**
-     * Method to set the call interface details to those of the device being called,
-     * as well as the enable the controls contained within the call interface.
-     * @param location the location of the device being called
-     * @param address the address of the device being called
-     */
     public void setCaller(String location, String address){
-        locLbl.setText(location);
+        locationLbl.setText(location);
         addLbl.setText(address);
         endCallBtn.setEnabled(true);
-        progressLbl.setEnabled(true);
-        callBtn.setEnabled(false);
+        progressLbl.setEnabled(false);
     }
     
-    /**
-     * Method to clear and disable the call interface.
-     */
     public void disableCallInterface(){
         endCallBtn.setEnabled(false);
         locLbl.setText("");
         addLbl.setText("");
         callBtn.setEnabled(true);
         progressLbl.setEnabled(false);
-        callBtn.setEnabled(true);
     }
-     
-    /**
-     * Method to update the list view of devices.
-     * @param listString array of string representations of devices to be added to the list view
-     */
+        
     public void updatePiList(String[] listString){
         //update the RPIList with an updated list
         piModel.clear();
@@ -467,27 +443,20 @@ public class TechSuppGUI extends javax.swing.JFrame {
         RPIList.repaint();
     }
     
-    /**
-     * Method to disable controls related to online devices.
-     */
     public void disableConnect(){
+        progressLbl.setEnabled(true);
         callBtn.setEnabled(false);
         openCamBtn.setEnabled(false);
         copyBtn.setEnabled(false);
     }
     
-    /**
-     * Method to enable controls related to online devices.
-     */
     public void enableConnect(){
+        progressLbl.setEnabled(false);
         callBtn.setEnabled(true);
         openCamBtn.setEnabled(true);
         copyBtn.setEnabled(true);
     }
     
-    /**
-     * Method to enable the location view panel and the controls contained within it
-     */
     public void enableLocViewer(){
         locationLbl.setEnabled(true);
         eqAtThisLocLbl.setEnabled(true);
@@ -500,9 +469,6 @@ public class TechSuppGUI extends javax.swing.JFrame {
         removeIssueBtn.setEnabled(true);        
     }
     
-    /** 
-     * Method to disable the location view panel and the controls contained within it
-     */
     public void disableLocViewer(){
         locationLbl.setEnabled(false);
         eqAtThisLocLbl.setEnabled(false);
@@ -515,12 +481,6 @@ public class TechSuppGUI extends javax.swing.JFrame {
         removeIssueBtn.setEnabled(false);        
     }
     
-    /**
-     * Method to update the location panel with all the details relating to a specified location
-     * @param issues the list of issues to add to the list
-     * @param equipment the list of equipment to add to the list
-     * @param location the location whose details are being set
-     */
     public void updateLocationDetails(ArrayList<String> issues, ArrayList<String> equipment, String location){
         //update the issue model and repaint the list
         issueModel.clear();
@@ -541,10 +501,6 @@ public class TechSuppGUI extends javax.swing.JFrame {
         enableLocViewer();
     }
     
-    /**
-     * Method to get the index of the device currently selected in the list view
-     * @return the index of the device currently selected in the list view
-     */
     public int getSelectedLocationIndex(){
         return RPIList.getSelectedIndex();        
     }
@@ -566,20 +522,21 @@ public class TechSuppGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TechSuppGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TechSuppGUI1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TechSuppGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TechSuppGUI1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TechSuppGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TechSuppGUI1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TechSuppGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TechSuppGUI1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TechSuppGUI().setVisible(true);
+                new TechSuppGUI1().setVisible(true);
             }
         });
     }

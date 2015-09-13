@@ -38,7 +38,7 @@ public class RemotePiManager {
     private static Thread pinger;
     private static FileReader reader;
     private static BufferedReader lineReader;
-    private static String confPath = "home/pi/RemotePiManager/details.conf";
+    private static String confPath = "/home/pi/RemotePiManager/details.conf";
     private static TechCall callHandler;
     /**
      * Does not use any passed arguments.

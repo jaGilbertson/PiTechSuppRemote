@@ -233,7 +233,7 @@ public class RPITechSuppCamViewer {
     public static void copyIP(int index){
         //copy ip address of pi to clipboard, usually for SSH
         StringSelection stringSelection = new StringSelection (camList.get(index).getIPAddress());
-        Clipboard board = Toolkit.getDefaultToolkit ().getSystemClipboard ();
+        Clipboard board = Toolkit.getDefaultToolkit().getSystemClipboard ();
         board.setContents (stringSelection, null);   
     }
     
